@@ -15,4 +15,11 @@ public class Edge {
         hash = hash * 31 + v.hashCode();
         return hash;
     }
+
+    public boolean equals(Object aThat) {
+        if ( this == aThat ) return true;
+        if ( !(aThat instanceof Edge) ) return false;
+        Edge that = (Edge)aThat;
+        return u == that.u && v == that.v;
+    }
 }

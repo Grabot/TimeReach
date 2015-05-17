@@ -12,7 +12,7 @@ import tue.data.Vertex;
  */
 public class DisjunctiveBFS {
     private DisjunctiveBFS () {}
-    static boolean execute(VersionGraph in, Vertex u, Vertex v, Interval iq) {
+    public static boolean execute(VersionGraph in, Vertex u, Vertex v, Interval iq) {
         return false; //TODO: implement
     }
 }
