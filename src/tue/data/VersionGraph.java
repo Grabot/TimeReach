@@ -13,46 +13,55 @@ import java.util.*;
 
 public class VersionGraph {
     private final Interval interval;
+    private final List<Snapshot> evolvingGraph;
 
-    private List<Time> times;
-    private HashMap<Time, List<Vertex>> vertices;
-    private HashMap<Time, List<Edge>> edges;
+    public VersionGraph(List<Snapshot> eg) {
+        assert eg.size() >= 1;
 
+        Time start = eg.get(0).getTime();
+        Time end = eg.get(eg.size() - 1).getTime();
 
-    public VersionGraph(Interval i) {
+        assert start.compareTo(end) <= 0;
+
+        this.interval = new Interval(start, end);
+        this.evolvingGraph = eg;
+    }
+
+    public VersionGraph(Interval i, List<Snapshot> eg) {
         this.interval = i;
-        times = new LinkedList<Time>();
-        vertices = new HashMap<Time, List<Vertex>>();
-        edges = new HashMap<Time, List<Edge>>();
+        this.evolvingGraph = eg;
     }
 
     // V_I, vertices of graph
-    public List<Vertex> getVertices() {
-        List<Vertex> nodes = new ArrayList<Vertex>();
-        for (Time time : times) {
-            if(interval.contains(time) && vertices.containsKey(time)) {
-                nodes.addAll(vertices.get(time));
-            }
+    public Set<Vertex> getVertices() {
+        Set<Vertex> vertices = new HashSet<Vertex>();
+
+        for (Snapshot graph : evolvingGraph){
+            vertices.addAll(graph.getVertices());
         }
 
-        return nodes;
+        return vertices;
     }
 
     public Set<Edge> getEdges() {
-        Set<Edge> connections = new HashSet<Edge>();
-        for (Time time : times) {
-            if(interval.contains(time) && edges.containsKey(time)) {
-                connections.addAll(edges.get(time));
-            }
+        Set<Edge> edges = new HashSet<Edge>();
+
+        for (Snapshot graph : evolvingGraph){
+            edges.addAll(graph.getEdges());
         }
-        return connections;
+
+        return edges;
     }
 
     public IntervalSet l(Edge e) {
-        return new IntervalSet(); // ?!??!!!?!??!?!
+        IntervalSet set = new IntervalSet();
+        //TODO: calculate timespan
+        return set;
     }
 
     public IntervalSet l(Vertex v) {
-        return new IntervalSet(); // ?!??!!!?!??!?!
+        IntervalSet set = new IntervalSet();
+        //TODO: calculate timespan
+        return set;
     }
 }
