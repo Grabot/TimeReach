@@ -17,7 +17,7 @@ public class IntervalSet {
      * @param is2 IntervalSet'
      * @return IntervalSet joined
      */
-    public IntervalSet join(IntervalSet is1, IntervalSet is2)
+    public static IntervalSet join(IntervalSet is1, IntervalSet is2)
     {
         IntervalSet result = new IntervalSet();
         for (Interval i1 : is1.getIntervals()) {
@@ -36,7 +36,7 @@ public class IntervalSet {
      * @param is2 IntervalSet'
      * @return IntervalSet merged
      */
-    public IntervalSet merge(IntervalSet is1, IntervalSet is2)
+    public static IntervalSet merge(IntervalSet is1, IntervalSet is2)
     {
         IntervalSet result = new IntervalSet();
         for (Interval i : is1.getIntervals()) {
@@ -50,9 +50,9 @@ public class IntervalSet {
         return result;
     }
 
-    public IntervalSet cross(IntervalSet is1, IntervalSet is2){ return join(is1, is2); }
-    public IntervalSet plus(IntervalSet is1, IntervalSet is2) {
-        return merge(is1, is2); }
+    public IntervalSet cross(IntervalSet is2){ return join(this, is2); }
+    public IntervalSet plus(IntervalSet is2) {
+        return merge(this, is2); }
 
     private void minimize() {
         //TODO: change intervals to get the minimum set
@@ -65,5 +65,9 @@ public class IntervalSet {
 
     public void addInterval(Interval interval) {
         intervals.add(interval);
+    }
+
+    public static IntervalSet empty() {
+        return new IntervalSet();
     }
 }
