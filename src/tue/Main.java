@@ -18,7 +18,7 @@ public class Main {
         Vertex[] vx = new Vertex[100];
         for (int i = 0; i < vx.length; i++) { vx[i] = new Vertex(i+1); }
 
-        List<Snapshot> eg = new ArrayList<Snapshot>();
+        List<Snapshot> evolutionGraph = new ArrayList<Snapshot>();
 
         vertices.add(vx[0]);
         vertices.add(vx[1]);
@@ -27,14 +27,16 @@ public class Main {
         edges.add(new Edge(vx[0], vx[1]));
         edges.add(new Edge(vx[1], vx[3]));
 
-        eg.add(new Snapshot(new IntTime(1), vertices, edges));
+        evolutionGraph.add(new Snapshot(new IntTime(1), vertices, edges));
 
         edges.remove(0);
         edges.add(new Edge(vx[2], vx[3]));
 
-        eg.add(new Snapshot(new IntTime(2), vertices, edges));
+        evolutionGraph.add(new Snapshot(new IntTime(2), vertices, edges));
+        
+    	System.out.println("Hello World");
 
-        VersionGraph in = new VersionGraph(eg);
+        VersionGraph in = new VersionGraph(evolutionGraph);
         Map<Edge, IntervalSet> execute = TransitiveClosure.execute(in);
     }
 
