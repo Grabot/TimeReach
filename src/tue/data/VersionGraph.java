@@ -55,13 +55,53 @@ public class VersionGraph {
 
     public IntervalSet l(Edge e) {
         IntervalSet set = new IntervalSet();
-        //TODO: calculate timespan
+        boolean inInterval = false;
+        Time start = null;
+        Time end = null;
+        for (Snapshot graph : evolvingGraph){
+            if(graph.getEdges().contains(e))
+            {
+                if(!inInterval) {
+                    start = graph.getTime();
+                    inInterval = true;
+                }
+
+                end = graph.getTime();
+            } else {
+                inInterval = false;
+                if(start != null && end != null) {
+                    set.addInterval(new Interval(start, end));
+                    start = null;
+                    end = null;
+                }
+            }
+        }
         return set;
     }
 
     public IntervalSet l(Vertex v) {
         IntervalSet set = new IntervalSet();
-        //TODO: calculate timespan
+        boolean inInterval = false;
+        Time start = null;
+        Time end = null;
+        for (Snapshot graph : evolvingGraph){
+            if(graph.getVertices().contains(v))
+            {
+                if(!inInterval) {
+                    start = graph.getTime();
+                    inInterval = true;
+                }
+
+                end = graph.getTime();
+            } else {
+                inInterval = false;
+                if(start != null && end != null) {
+                    set.addInterval(new Interval(start, end));
+                    start = null;
+                    end = null;
+                }
+            }
+        }
         return set;
     }
 }

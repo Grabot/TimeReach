@@ -1,13 +1,14 @@
 package tue.data;
 
 import java.util.List;
+import java.util.Set;
 
 public class Snapshot {
     private Time time;
-    private List<Vertex> vertices;
-    private List<Edge> edges;
+    private Set<Vertex> vertices;
+    private Set<Edge> edges;
 
-    public Snapshot(Time time, List<Vertex> vertices, List<Edge> edges) {
+    public Snapshot(Time time, Set<Vertex> vertices, Set<Edge> edges) {
         this.time = time;
         this.vertices = vertices;
         this.edges = edges;
@@ -17,11 +18,11 @@ public class Snapshot {
         return time;
     }
 
-    public List<Vertex> getVertices() {
+    public Set<Vertex> getVertices() {
         return vertices;
     }
 
-    public List<Edge> getEdges() {
+    public Set<Edge> getEdges() {
         return edges;
     }
 }
