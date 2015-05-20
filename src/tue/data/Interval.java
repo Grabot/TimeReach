@@ -30,4 +30,8 @@ public class Interval {
     public boolean isEmpty() {
         return isEmpty;
     }
+
+    public Integer getStartTime() {
+        return time1;
+    }
 }
