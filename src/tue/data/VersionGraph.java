@@ -12,24 +12,31 @@ import java.util.*;
  */
 
 public class VersionGraph {
-    private final Interval interval;
-    private final List<Snapshot> evolvingGraph;
+    private Interval interval;
+    private final List<Snapshot> evolvingGraph = new LinkedList<>();
+    private HashMap<Edge, IntervalSet> edgeIntervals = new HashMap<>();
+    private HashMap<Vertex, IntervalSet> vertexIntervals = new HashMap<>();
+
+    public VersionGraph() {
+
+    }
 
     public VersionGraph(List<Snapshot> eg) {
         assert eg.size() >= 1;
 
-        Time start = eg.get(0).getTime();
-        Time end = eg.get(eg.size() - 1).getTime();
-
-        assert start.compareTo(end) <= 0;
-
-        this.interval = new Interval(start, end);
-        this.evolvingGraph = eg;
+        eg.forEach(this::addSnapshot);
     }
 
-    public VersionGraph(Interval i, List<Snapshot> eg) {
-        this.interval = i;
-        this.evolvingGraph = eg;
+    public void addSnapshot(Snapshot snap) {
+        this.evolvingGraph.add(snap);
+
+        snap.getEdges().forEach(this::l);
+        snap.getVertices().forEach(this::l);
+
+        Time start = this.interval != null ? this.interval.getStartTime() : snap.getTime();
+        Time end = snap.getTime();
+
+        this.interval = new Interval(start, end);
     }
 
     // V_I, vertices of graph
@@ -54,6 +61,10 @@ public class VersionGraph {
     }
 
     public IntervalSet l(Edge e) {
+        if(edgeIntervals.containsKey(e)) {
+            return edgeIntervals.get(e);
+        }
+
         IntervalSet set = new IntervalSet();
         boolean inInterval = false;
         Time start = null;
@@ -76,10 +87,15 @@ public class VersionGraph {
                 }
             }
         }
+        edgeIntervals.put(e, set);
         return set;
     }
 
     public IntervalSet l(Vertex v) {
+        if(vertexIntervals.containsKey(v)) {
+            return vertexIntervals.get(v);
+        }
+
         IntervalSet set = new IntervalSet();
         boolean inInterval = false;
         Time start = null;
@@ -102,6 +118,7 @@ public class VersionGraph {
                 }
             }
         }
+        vertexIntervals.put(v, set);
         return set;
     }
 }
