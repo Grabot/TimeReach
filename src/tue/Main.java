@@ -3,16 +3,49 @@ package tue;
 import tue.algorithms.TransitiveClosure;
 import tue.data.*;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.*;
 
 public class Main {
 
     public static void main(String[] args) {
+//        RealVersionGraph in = getDemo();
 
-        // small demo
+        FakeVersionGraph in = new FakeVersionGraph();
+
+        try {
+            Scanner sc = new Scanner(new File("data/fb_days_version"));
+            sc.nextLine();
+            int i = 0;
+            while(sc.hasNextLine() && sc.hasNextBigDecimal()) {
+                Vertex v1 = new Vertex(sc.nextBigInteger().intValue());
+                Vertex v2 = new Vertex(sc.nextBigInteger().intValue());
+                String sp = sc.next("[0-9]*,[0-9]*");
+                String[] split = sp.split(",");
+
+                Integer time1 = new Integer(split[0]);
+                Integer time2 = new Integer(split[1]);
+                Interval interval = new Interval(time1, time2);
+
+                in.addEdge(new Edge(v1, v2), interval);
+                i++;
+                if(i % 10000 == 0) {
+                    System.out.print(i);
+                    System.out.println("");
+                }
+            }
+            System.out.println("Data loading done");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        Map<Edge, IntervalSet> execute = TransitiveClosure.execute(in);
+    }
+
+
+
+    private static RealVersionGraph getDemo() {
         HashSet<Vertex> vertices = new HashSet<Vertex>();
         HashSet<Edge> edges = new HashSet<Edge>();
 
@@ -35,10 +68,7 @@ public class Main {
         edges.add(new Edge(vx[2], vx[3]));
 
         evolutionGraph.add(new Snapshot(2, vertices, edges));
-        
-    	System.out.println("Hello World");
 
-        RealVersionGraph in = new RealVersionGraph(evolutionGraph);
-        Map<Edge, IntervalSet> execute = TransitiveClosure.execute(in);
+        return new RealVersionGraph(evolutionGraph);
     }
 }
