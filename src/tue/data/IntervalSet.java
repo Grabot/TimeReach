@@ -1,8 +1,6 @@
 package tue.data;
 
 import java.util.BitSet;
-import java.util.LinkedList;
-import java.util.List;
 
 public class IntervalSet {
 
@@ -18,18 +16,26 @@ public class IntervalSet {
     }
 
     public IntervalSet cross(IntervalSet is2) {
-        BitSet result = (BitSet) this.getBitwiseRepresentation().clone();
-        result.and(is2.getBitwiseRepresentation());
+        BitSet result = (BitSet) this.getBits().clone();
+        result.and(is2.getBits());
         return new IntervalSet(result);
     }
 
     public IntervalSet plus(IntervalSet is2) {
-        BitSet result = (BitSet) this.getBitwiseRepresentation().clone();
-        result.or(is2.getBitwiseRepresentation());
+        BitSet result = (BitSet) this.getBits().clone();
+        result.or(is2.getBits());
         return new IntervalSet(result);
     }
 
-    private BitSet getBitwiseRepresentation() {
+    public boolean covers(IntervalSet is2) {
+        return this.getBits().intersects(is2.getBits());
+    }
+
+    public boolean covers(Integer time) {
+        return bitwiseRepresentation.get(time);
+    }
+
+    private BitSet getBits() {
         return bitwiseRepresentation;
     }
 
