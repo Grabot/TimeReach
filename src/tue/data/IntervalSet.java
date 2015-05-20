@@ -39,12 +39,8 @@ public class IntervalSet {
     public static IntervalSet merge(IntervalSet is1, IntervalSet is2)
     {
         IntervalSet result = new IntervalSet();
-        for (Interval i : is1.getIntervals()) {
-            result.addInterval(i);
-        }
-        for (Interval i : is2.getIntervals()) {
-            result.addInterval(i);
-        }
+        is1.getIntervals().forEach(result::addInterval);
+        is2.getIntervals().forEach(result::addInterval);
 
         result.minimize();
         return result;
