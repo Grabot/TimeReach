@@ -41,5 +41,4 @@ public class Main {
         RealVersionGraph in = new RealVersionGraph(evolutionGraph);
         Map<Edge, IntervalSet> execute = TransitiveClosure.execute(in);
     }
-
 }

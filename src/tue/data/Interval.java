@@ -34,4 +34,8 @@ public class Interval {
     public Integer getStartTime() {
         return time1;
     }
+
+    public Integer getEndTime() {
+        return time2;
+    }
 }

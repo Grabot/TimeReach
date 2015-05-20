@@ -1,5 +1,6 @@
 package tue.data;
 
+import java.util.BitSet;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -53,6 +54,21 @@ public class IntervalSet {
     private void minimize() {
         //TODO: change intervals to get the minimum set
 
+    }
+
+    public BitSet getBitwiseRepresentation() {
+        BitSet result = new BitSet();
+
+        // Search
+        for (Interval interval : intervals)
+        {
+            for (int i = interval.getStartTime(); i < interval.getEndTime(); i++)
+            {
+                result.set(i);
+            }
+        }
+
+        return result;
     }
 
     public List<Interval> getIntervals() {
