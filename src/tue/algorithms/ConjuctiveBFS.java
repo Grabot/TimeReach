@@ -1,8 +1,10 @@
 package tue.algorithms;
 
+import java.util.ArrayList;
+import java.util.Stack;
+
 import tue.data.IVersionGraph;
 import tue.data.Interval;
-import tue.data.RealVersionGraph;
 import tue.data.Vertex;
 
 /**
@@ -13,7 +15,7 @@ import tue.data.Vertex;
  */
 public class ConjuctiveBFS {
     private ConjuctiveBFS () {}
-    public static boolean execute(IVersionGraph in, Vertex u, Vertex v, Interval iq) {
+    public static boolean execute(IVersionGraph in, Vertex u, Vertex v, Interval Iq) {
     	/**
     	 * Algorithm 3 Conjunctive-BFS(VG_I , u, v, {I_Q})
     	 * Input: Version graph VG_I , nodes u, v, interval I_Q subset
@@ -23,8 +25,7 @@ public class ConjuctiveBFS {
     	3: while N =/= emptyset; do
     	4: 		n <- N.dequeue()
     	5: 		i <- INT.dequeue()
-    	6: 		for all w s.t. (n, w) in VG_I and {I_Q} (x) L_e((n,w))
-    	 		=/= emptyset do
+    	6: 		for all w s.t. (n, w) in VG_I and {I_Q} (x) L_e((n,w)) =/= emptyset do
     	7: 			I' = {I_Q} (x) L_e(n,w)
     	8: 			if w == v then
     	9: 				R = R (+) I'
@@ -42,6 +43,16 @@ public class ConjuctiveBFS {
     	21: end while
     	22: Return(false)
     	*/
-        return false; //TODO: implement
+    	Stack<Vertex> N = new Stack<Vertex>();
+    	Stack<Interval> INT = new Stack<Interval>();
+    	N.push(u);
+    	INT.push(Iq);
+    	while( !N.isEmpty() )
+    	{
+    		Vertex n = N.pop();
+    		Interval i = INT.pop();
+    		
+    	}
+        return false; 
     }
 }
