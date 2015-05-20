@@ -24,6 +24,8 @@ public class VersionGraph implements IVersionGraph {
     public VersionGraph(List<Snapshot> eg) {
         assert eg.size() >= 1;
 
+        Integer start = eg.get(0).getTime();
+        Integer end = eg.get(eg.size() - 1).getTime();
         eg.forEach(this::addSnapshot);
     }
 
@@ -33,8 +35,8 @@ public class VersionGraph implements IVersionGraph {
         snap.getEdges().forEach(this::l);
         snap.getVertices().forEach(this::l);
 
-        Time start = this.interval != null ? this.interval.getStartTime() : snap.getTime();
-        Time end = snap.getTime();
+        Integer start = this.interval != null ? this.interval.getStartTime() : snap.getTime();
+        Integer end = snap.getTime();
 
         this.interval = new Interval(start, end);
     }
@@ -67,8 +69,8 @@ public class VersionGraph implements IVersionGraph {
 
         IntervalSet set = new IntervalSet();
         boolean inInterval = false;
-        Time start = null;
-        Time end = null;
+        Integer start = null;
+        Integer end = null;
         for (Snapshot graph : evolvingGraph){
             if(graph.getEdges().contains(e))
             {
@@ -98,8 +100,8 @@ public class VersionGraph implements IVersionGraph {
 
         IntervalSet set = new IntervalSet();
         boolean inInterval = false;
-        Time start = null;
-        Time end = null;
+        Integer start = null;
+        Integer end = null;
         for (Snapshot graph : evolvingGraph){
             if(graph.getVertices().contains(v))
             {
