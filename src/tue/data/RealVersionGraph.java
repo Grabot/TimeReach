@@ -62,6 +62,11 @@ public class RealVersionGraph implements IVersionGraph {
         return edges;
     }
 
+    @Override
+    public Set<Vertex> neighbours(Vertex u) {
+        return null;
+    }
+
     public IntervalSet l(Edge e) {
         if(edgeIntervals.containsKey(e)) {
             return edgeIntervals.get(e);
