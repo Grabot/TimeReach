@@ -1,8 +1,10 @@
 package tue.algorithms;
 
-import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Set;
 import java.util.Stack;
 
+import tue.data.Edge;
 import tue.data.IVersionGraph;
 import tue.data.Interval;
 import tue.data.Vertex;
@@ -51,7 +53,16 @@ public class ConjuctiveBFS {
     	{
     		Vertex n = N.pop();
     		Interval i = INT.pop();
-    		
+    		Set<Edge> w = in.getEdges();
+    		Iterator<Edge> iterator = w.iterator();
+    		while(iterator.hasNext()) 
+    		{
+    			Edge setElement = iterator.next();
+    			if( setElement.getVertex1() == n )
+    			{
+    				
+    			}
+    		}
     	}
         return false; 
     }
