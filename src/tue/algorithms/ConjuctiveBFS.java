@@ -18,7 +18,7 @@ import tue.data.Vertex;
  */
 public class ConjuctiveBFS {
     private ConjuctiveBFS () {}
-    public static boolean execute(IVersionGraph in, Vertex u, Vertex v, Interval Iq) {
+    public static boolean execute(IVersionGraph in, Vertex u, Vertex v, IntervalSet Iq) {
     	/**
     	 * Algorithm 3 Conjunctive-BFS(VG_I , u, v, {I_Q})
     	 * Input: Version graph VG_I , nodes u, v, interval I_Q subset
@@ -47,22 +47,30 @@ public class ConjuctiveBFS {
     	22: Return(false)
     	*/
     	Stack<Vertex> N = new Stack<Vertex>();
-    	Stack<Interval> INT = new Stack<Interval>();
+    	Stack<IntervalSet> INT = new Stack<IntervalSet>();
     	N.push(u);
     	INT.push(Iq);
+		IntervalSet R = IntervalSet.empty();
     	while( !N.isEmpty() )
     	{
     		Vertex n = N.pop();
-    		Interval i = INT.pop();
-    		
-			IntervalSet set = new IntervalSet();
-			set.addInterval(i);
-			
+    		IntervalSet i = INT.pop();
     		Set<Vertex> neighbours = in.neighbours(n);
     		for(Vertex w : neighbours) {
     			Edge e = new Edge(n, w);
-				if(set.cross(in.l(e)).isEmpty()){
-					System.out.println("test");
+				IntervalSet Iprime = i.cross(in.l(e));
+				if(!Iprime.isEmpty())
+				{
+					if( w == v )
+					{
+						R = R.plus(Iprime);
+						if( i.covers(R))
+						{
+							return true;
+						}
+						continue;
+					}
+					//TODO IN implementation
 				}
     		}
     	}
