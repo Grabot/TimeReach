@@ -38,7 +38,7 @@ public class Main {
         
     	System.out.println("Hello World");
 
-        VersionGraph in = new VersionGraph(evolutionGraph);
+        RealVersionGraph in = new RealVersionGraph(evolutionGraph);
         Map<Edge, IntervalSet> execute = TransitiveClosure.execute(in);
     }
 

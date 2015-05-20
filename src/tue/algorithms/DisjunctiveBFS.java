@@ -1,7 +1,8 @@
 package tue.algorithms;
 
+import tue.data.IVersionGraph;
 import tue.data.Interval;
-import tue.data.VersionGraph;
+import tue.data.RealVersionGraph;
 import tue.data.Vertex;
 
 /**
@@ -12,7 +13,7 @@ import tue.data.Vertex;
  */
 public class DisjunctiveBFS {
     private DisjunctiveBFS () {}
-    public static boolean execute(VersionGraph in, Vertex u, Vertex v, Interval iq) {
+    public static boolean execute(IVersionGraph in, Vertex u, Vertex v, Interval iq) {
         return false; //TODO: implement
     }
 }

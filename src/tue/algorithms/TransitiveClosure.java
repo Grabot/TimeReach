@@ -10,7 +10,7 @@ import java.util.*;
  */
 public class TransitiveClosure {
     private TransitiveClosure () {}
-    public static Map<Edge, IntervalSet> execute(VersionGraph in) {
+    public static Map<Edge, IntervalSet> execute(IVersionGraph in) {
         Set<Vertex> vex = in.getVertices();
         Set<Edge> edges = in.getEdges();
         Map<Edge, IntervalSet> cl = new HashMap<Edge, IntervalSet>();

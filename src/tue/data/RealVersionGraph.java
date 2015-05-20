@@ -11,17 +11,17 @@ import java.util.*;
  * VG_I = (V_I , E_I , L_u, L_e)
  */
 
-public class VersionGraph implements IVersionGraph {
+public class RealVersionGraph implements IVersionGraph {
     private Interval interval;
     private final List<Snapshot> evolvingGraph = new LinkedList<>();
     private HashMap<Edge, IntervalSet> edgeIntervals = new HashMap<>();
     private HashMap<Vertex, IntervalSet> vertexIntervals = new HashMap<>();
 
-    public VersionGraph() {
+    public RealVersionGraph() {
 
     }
 
-    public VersionGraph(List<Snapshot> eg) {
+    public RealVersionGraph(List<Snapshot> eg) {
         assert eg.size() >= 1;
 
         Integer start = eg.get(0).getTime();
