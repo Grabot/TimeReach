@@ -29,12 +29,12 @@ public class Main {
         edges.add(e1);
         edges.add(new Edge(vx[1], vx[3]));
 
-        evolutionGraph.add(new Snapshot(new IntTime(1), vertices, edges));
+        evolutionGraph.add(new Snapshot(1, vertices, edges));
 
         edges.remove(e1);
         edges.add(new Edge(vx[2], vx[3]));
 
-        evolutionGraph.add(new Snapshot(new IntTime(2), vertices, edges));
+        evolutionGraph.add(new Snapshot(2, vertices, edges));
         
     	System.out.println("Hello World");
 
@@ -42,18 +42,4 @@ public class Main {
         Map<Edge, IntervalSet> execute = TransitiveClosure.execute(in);
     }
 
-    private static class IntTime implements Time {
-        private Integer i;
-
-        private IntTime(int i) {
-            this.i = i;
-        }
-
-        @Override
-        public int compareTo(Time o) {
-            IntTime o2 = (IntTime) o;
-
-            return i.compareTo(o2.i);
-        }
-    }
 }
