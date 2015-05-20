@@ -36,7 +36,7 @@ public class Main {
 
         evolutionGraph.add(new Snapshot(2, vertices, edges));
         
-    	System.out.println("Hello World bitches");
+    	System.out.println("Hello World");
 
         RealVersionGraph in = new RealVersionGraph(evolutionGraph);
         Map<Edge, IntervalSet> execute = TransitiveClosure.execute(in);
