@@ -11,7 +11,7 @@ import java.util.*;
  * VG_I = (V_I , E_I , L_u, L_e)
  */
 
-public class VersionGraph {
+public class VersionGraph implements IVersionGraph {
     private Interval interval;
     private final List<Snapshot> evolvingGraph = new LinkedList<>();
     private HashMap<Edge, IntervalSet> edgeIntervals = new HashMap<>();
