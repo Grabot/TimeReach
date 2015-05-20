@@ -47,4 +47,8 @@ public class IntervalSet {
     public static IntervalSet empty() {
         return new IntervalSet();
     }
+
+	public boolean isEmpty() {
+		return bitwiseRepresentation.isEmpty();
+	}
 }
