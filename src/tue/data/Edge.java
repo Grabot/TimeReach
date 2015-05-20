@@ -9,6 +9,13 @@ public class Edge {
         this.v = v;
     }
 
+    public Vertex getVertex1(){
+        return u;
+    }
+    public Vertex getVertex2(){
+        return v;
+    }
+
     public int hashCode() {
         int hash = 17;
         hash = hash * 31 + u.hashCode();
