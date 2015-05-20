@@ -27,6 +27,8 @@ public class FakeVersionGraph implements IVersionGraph {
         edset.addInterval(interval);
 
         edgeIntervals.put(edge, edset);
+        vertexIntervals.put(vertex1, vxset1);
+        vertexIntervals.put(vertex2, vxset2);
     }
 
     @Override
