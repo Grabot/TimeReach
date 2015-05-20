@@ -1,8 +1,8 @@
 package tue.data;
 
 public class Interval {
-    private Time time1;
-    private Time time2;
+    private Integer time1;
+    private Integer time2;
     private boolean isEmpty = true;
 
     public static Interval empty() {
@@ -13,13 +13,13 @@ public class Interval {
 
     private Interval() {}
 
-    public Interval(Time time1, Time time2) {
+    public Interval(Integer time1, Integer time2) {
         this.time1 = time1;
         this.time2 = time2;
         this.isEmpty = false;
     }
 
-    public boolean contains(Time given) {
+    public boolean contains(Integer given) {
         return time1.compareTo(given) >= 0 && given.compareTo(time2) <= 0;
     }
 

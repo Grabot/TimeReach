@@ -18,8 +18,8 @@ public class VersionGraph {
     public VersionGraph(List<Snapshot> eg) {
         assert eg.size() >= 1;
 
-        Time start = eg.get(0).getTime();
-        Time end = eg.get(eg.size() - 1).getTime();
+        Integer start = eg.get(0).getTime();
+        Integer end = eg.get(eg.size() - 1).getTime();
 
         assert start.compareTo(end) <= 0;
 
@@ -56,8 +56,8 @@ public class VersionGraph {
     public IntervalSet l(Edge e) {
         IntervalSet set = new IntervalSet();
         boolean inInterval = false;
-        Time start = null;
-        Time end = null;
+        Integer start = null;
+        Integer end = null;
         for (Snapshot graph : evolvingGraph){
             if(graph.getEdges().contains(e))
             {
@@ -82,8 +82,8 @@ public class VersionGraph {
     public IntervalSet l(Vertex v) {
         IntervalSet set = new IntervalSet();
         boolean inInterval = false;
-        Time start = null;
-        Time end = null;
+        Integer start = null;
+        Integer end = null;
         for (Snapshot graph : evolvingGraph){
             if(graph.getVertices().contains(v))
             {

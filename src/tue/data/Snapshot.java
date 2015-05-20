@@ -4,17 +4,17 @@ import java.util.List;
 import java.util.Set;
 
 public class Snapshot {
-    private Time time;
+    private Integer time;
     private Set<Vertex> vertices;
     private Set<Edge> edges;
 
-    public Snapshot(Time time, Set<Vertex> vertices, Set<Edge> edges) {
+    public Snapshot(Integer time, Set<Vertex> vertices, Set<Edge> edges) {
         this.time = time;
         this.vertices = vertices;
         this.edges = edges;
     }
 
-    public Time getTime() {
+    public Integer getTime() {
         return time;
     }
 
