@@ -7,6 +7,7 @@ import java.util.Stack;
 import tue.data.Edge;
 import tue.data.IVersionGraph;
 import tue.data.Interval;
+import tue.data.IntervalSet;
 import tue.data.Vertex;
 
 /**
@@ -53,15 +54,16 @@ public class ConjuctiveBFS {
     	{
     		Vertex n = N.pop();
     		Interval i = INT.pop();
-    		Set<Edge> w = in.getEdges();
-    		Iterator<Edge> iterator = w.iterator();
-    		while(iterator.hasNext()) 
-    		{
-    			Edge setElement = iterator.next();
-    			if( setElement.getVertex1() == n )
-    			{
-    				
-    			}
+    		
+			IntervalSet set = new IntervalSet();
+			set.addInterval(i);
+			
+    		Set<Vertex> neighbours = in.neighbours(n);
+    		for(Vertex w : neighbours) {
+    			Edge e = new Edge(n, w);
+				if(set.cross(in.l(e)).isEmpty()){
+					System.out.println("test");
+				}
     		}
     	}
         return false; 
