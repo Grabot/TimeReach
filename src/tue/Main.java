@@ -39,7 +39,8 @@ public class Main {
             e.printStackTrace();
         }
 
-        Map<Edge, IntervalSet> execute = TransitiveClosure.execute(in);
+        getDemo(); 
+        System.out.println("In your face Luuk");
     }
 
 
@@ -49,14 +50,17 @@ public class Main {
         HashSet<Edge> edges = new HashSet<Edge>();
 
         Integer[] vx = new Integer[100];
+        for( int i = 0; i < 8; i++ )
+        {
+            vx[i] = i;
+            vertices.add(vx[i]);
+        }
+        
+        System.out.println("size of vertices: " + vertices.size());
         for (int i = 0; i < vx.length; i++) { vx[i] = new Integer(i+1); }
 
         List<Snapshot> evolutionGraph = new ArrayList<Snapshot>();
-
-        vertices.add(vx[0]);
-        vertices.add(vx[1]);
-        vertices.add(vx[2]);
-        vertices.add(vx[3]);
+        
         Edge e1 = new Edge(vx[0], vx[1]);
         edges.add(e1);
         edges.add(new Edge(vx[1], vx[3]));
