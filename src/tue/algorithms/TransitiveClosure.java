@@ -11,12 +11,12 @@ import java.util.*;
 public class TransitiveClosure {
     private TransitiveClosure () {}
     public static Map<Edge, IntervalSet> execute(IVersionGraph in) {
-        Set<Vertex> vex = in.getVertices();
+        Set<Integer> vex = in.getVertices();
         Set<Edge> edges = in.getEdges();
         Map<Edge, IntervalSet> cl = new HashMap<Edge, IntervalSet>();
 
-        for (Vertex u : vex) {
-            for (Vertex v : vex) {
+        for (Integer u : vex) {
+            for (Integer v : vex) {
                 Edge edge = new Edge(u, v);
                 if(edges.contains(edge)) {
                     cl.put(edge, in.l(edge));
@@ -25,9 +25,9 @@ public class TransitiveClosure {
                 }
             }
         }
-        for (Vertex w : vex) {
-            for (Vertex u : vex) {
-                for (Vertex v : vex) {
+        for (Integer w : vex) {
+            for (Integer u : vex) {
+                for (Integer v : vex) {
                     Edge uv = new Edge(u, v);
                     Edge uw = new Edge(u, w);
                     Edge wv = new Edge(w, v);

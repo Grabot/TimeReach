@@ -6,7 +6,14 @@ import tue.data.Snapshot;
 public class ConstructSccPostings {
     private ConstructSccPostings () {}
     public static SCC execute(Snapshot g, SCC scc) {
+        SCC scc2 = new SCC();
 
-        return scc;
+        // M = {}
+
+//        TarjanSCC tscc = new TarjanSCC(g);
+
+
+
+        return scc2;
     }
 }

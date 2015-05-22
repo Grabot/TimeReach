@@ -15,7 +15,7 @@ public class RealVersionGraph implements IVersionGraph {
     private Interval interval;
     private final List<Snapshot> evolvingGraph = new LinkedList<>();
     private HashMap<Edge, IntervalSet> edgeIntervals = new HashMap<>();
-    private HashMap<Vertex, IntervalSet> vertexIntervals = new HashMap<>();
+    private HashMap<Integer, IntervalSet> vertexIntervals = new HashMap<>();
 
     public RealVersionGraph() {
 
@@ -42,8 +42,8 @@ public class RealVersionGraph implements IVersionGraph {
     }
 
     // V_I, vertices of graph
-    public Set<Vertex> getVertices() {
-        Set<Vertex> vertices = new HashSet<Vertex>();
+    public Set<Integer> getVertices() {
+        Set<Integer> vertices = new HashSet<>();
 
         for (Snapshot graph : evolvingGraph){
             vertices.addAll(graph.getVertices());
@@ -63,7 +63,7 @@ public class RealVersionGraph implements IVersionGraph {
     }
 
     @Override
-    public Set<Vertex> neighbours(Vertex u) {
+    public Set<Integer> neighbours(Integer u) {
         return null;
     }
 
@@ -98,7 +98,7 @@ public class RealVersionGraph implements IVersionGraph {
         return set;
     }
 
-    public IntervalSet l(Vertex v) {
+    public IntervalSet l(Integer v) {
         if(vertexIntervals.containsKey(v)) {
             return vertexIntervals.get(v);
         }

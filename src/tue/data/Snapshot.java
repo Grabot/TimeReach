@@ -1,14 +1,21 @@
 package tue.data;
 
+import tue.data.stanford.Digraph;
+
 import java.util.List;
 import java.util.Set;
 
-public class Snapshot {
+public class Snapshot extends Digraph {
     private Integer time;
-    private Set<Vertex> vertices;
+    private Set<Integer> vertices;
     private Set<Edge> edges;
 
-    public Snapshot(Integer time, Set<Vertex> vertices, Set<Edge> edges) {
+    public Snapshot(Integer time, Set<Integer> vertices, Set<Edge> edges) {
+        super(vertices.size());
+
+        for (Edge edge : edges) {
+            this.addEdge(edge.getVertex1(), edge.getVertex2());
+        }
         this.time = time;
         this.vertices = vertices;
         this.edges = edges;
@@ -18,7 +25,7 @@ public class Snapshot {
         return time;
     }
 
-    public Set<Vertex> getVertices() {
+    public Set<Integer> getVertices() {
         return vertices;
     }
 

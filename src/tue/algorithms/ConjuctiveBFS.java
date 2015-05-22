@@ -6,7 +6,6 @@ import java.util.Stack;
 import tue.data.Edge;
 import tue.data.IVersionGraph;
 import tue.data.IntervalSet;
-import tue.data.Vertex;
 
 /**
  * NOTE: fG = fancy G that UTF8 does not have
@@ -16,7 +15,7 @@ import tue.data.Vertex;
  */
 public class ConjuctiveBFS {
     private ConjuctiveBFS () {}
-    public static boolean execute(IVersionGraph in, Vertex u, Vertex v, IntervalSet Iq) {
+    public static boolean execute(IVersionGraph in, Integer u, Integer v, IntervalSet Iq) {
     	/**
     	 * Algorithm 3 Conjunctive-BFS(VG_I , u, v, {I_Q})
     	 * Input: Version graph VG_I , nodes u, v, interval I_Q subset
@@ -44,7 +43,7 @@ public class ConjuctiveBFS {
     	21: end while
     	22: Return(false)
     	*/
-    	Stack<Vertex> N = new Stack<Vertex>();
+    	Stack<Integer> N = new Stack<>();
     	Stack<IntervalSet> INT = new Stack<IntervalSet>();
     	N.push(u);
     	INT.push(Iq);
@@ -52,10 +51,10 @@ public class ConjuctiveBFS {
 		IntervalSet IN = IntervalSet.empty();
     	while( !N.isEmpty() )
     	{
-    		Vertex n = N.pop();
+			Integer n = N.pop();
     		IntervalSet i = INT.pop();
-    		Set<Vertex> neighbours = in.neighbours(n);
-    		for(Vertex w : neighbours) {
+    		Set<Integer> neighbours = in.neighbours(n);
+    		for(Integer w : neighbours) {
     			Edge e = new Edge(n, w);
 				IntervalSet Iprime = i.cross(in.l(e));
 				if(!Iprime.isEmpty())

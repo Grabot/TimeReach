@@ -19,8 +19,8 @@ public class Main {
             sc.nextLine();
             int i = 0;
             while(sc.hasNextLine() && sc.hasNextBigDecimal()) {
-                Vertex v1 = new Vertex(sc.nextBigInteger().intValue());
-                Vertex v2 = new Vertex(sc.nextBigInteger().intValue());
+                Integer v1 = sc.nextBigInteger().intValue();
+                Integer v2 = sc.nextBigInteger().intValue();
                 String sp = sc.next("[0-9]*,[0-9]*");
                 String[] split = sp.split(",");
 
@@ -46,11 +46,11 @@ public class Main {
 
 
     private static RealVersionGraph getDemo() {
-        HashSet<Vertex> vertices = new HashSet<Vertex>();
+        HashSet<Integer> vertices = new HashSet<Integer>();
         HashSet<Edge> edges = new HashSet<Edge>();
 
-        Vertex[] vx = new Vertex[100];
-        for (int i = 0; i < vx.length; i++) { vx[i] = new Vertex(i+1); }
+        Integer[] vx = new Integer[100];
+        for (int i = 0; i < vx.length; i++) { vx[i] = new Integer(i+1); }
 
         List<Snapshot> evolutionGraph = new ArrayList<Snapshot>();
 

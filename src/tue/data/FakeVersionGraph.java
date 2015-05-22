@@ -7,19 +7,19 @@ import java.util.Set;
 
 public class FakeVersionGraph implements IVersionGraph {
     private HashMap<Edge, IntervalSet> edgeIntervals = new HashMap<>();
-    private HashMap<Vertex, IntervalSet> vertexIntervals = new HashMap<>();
+    private HashMap<Integer, IntervalSet> vertexIntervals = new HashMap<>();
     private HashSet<Edge> edgesSet = new HashSet<>();
-    private HashSet<Vertex> vertices = new HashSet<>();
-    private HashMap<Vertex, Set<Vertex>> edges = new HashMap<>();
+    private HashSet<Integer> vertices = new HashSet<>();
+    private HashMap<Integer, Set<Integer>> edges = new HashMap<>();
 
     public void addEdge(Edge edge, Interval interval) {
         IntervalSet edset = edgeIntervals.getOrDefault(edge, new IntervalSet());
 
-        Vertex vertex1 = edge.getVertex1();
-        Vertex vertex2 = edge.getVertex2();
+        Integer vertex1 = edge.getVertex1();
+        Integer vertex2 = edge.getVertex2();
         edgesSet.add(edge);
 
-        Set<Vertex> set = edges.getOrDefault(vertex1, new LinkedHashSet<>());
+        Set<Integer> set = edges.getOrDefault(vertex1, new LinkedHashSet<>());
         set.add(vertex2);
         edges.put(vertex1, set);
 
@@ -39,7 +39,7 @@ public class FakeVersionGraph implements IVersionGraph {
     }
 
     @Override
-    public Set<Vertex> getVertices() {
+    public Set<Integer> getVertices() {
         return vertices;
     }
 
@@ -49,7 +49,7 @@ public class FakeVersionGraph implements IVersionGraph {
     }
 
     @Override
-    public Set<Vertex> neighbours(Vertex u) {
+    public Set<Integer> neighbours(Integer u) {
         return edges.getOrDefault(u, new LinkedHashSet<>());
     }
 
@@ -59,7 +59,7 @@ public class FakeVersionGraph implements IVersionGraph {
     }
 
     @Override
-    public IntervalSet l(Vertex v) {
+    public IntervalSet l(Integer v) {
         return vertexIntervals.getOrDefault(v, new IntervalSet());
     }
 }

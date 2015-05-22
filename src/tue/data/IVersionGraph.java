@@ -3,11 +3,11 @@ package tue.data;
 import java.util.Set;
 
 public interface IVersionGraph {
-    Set<Vertex> getVertices();
+    Set<Integer> getVertices();
     Set<Edge> getEdges();
 
-    Set<Vertex> neighbours(Vertex u);
+    Set<Integer> neighbours(Integer u);
 
     IntervalSet l(Edge e);
-    IntervalSet l(Vertex v);
+    IntervalSet l(Integer v);
 }
