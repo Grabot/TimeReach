@@ -61,7 +61,7 @@ public class ConjuctiveBFS {
     		Set<Integer> neighbours = in.neighbours(n);
     		for(Integer w : neighbours) {
     			Edge e = new Edge(n, w);
-				IntervalSet Iprime = i.cross(in.l(e));
+				IntervalSet Iprime = i.cross(in.getIntervalSet(e));
 				if(!Iprime.isEmpty())
 				{
 					if( w == v )

@@ -19,7 +19,7 @@ public class TransitiveClosure {
             for (Integer v : vex) {
                 Edge edge = new Edge(u, v);
                 if(edges.contains(edge)) {
-                    cl.put(edge, in.l(edge));
+                    cl.put(edge, in.getIntervalSet(edge));
                 } else {
                     cl.put(edge, IntervalSet.empty());
                 }

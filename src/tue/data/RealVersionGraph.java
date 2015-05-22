@@ -33,7 +33,7 @@ public class RealVersionGraph implements IVersionGraph {
     public void addSnapshot(Snapshot snap) {
         this.evolvingGraph.add(snap);
 
-        snap.getEdges().forEach(this::l);
+        snap.getEdges().forEach(this::getIntervalSet);
 
         for(Edge e : snap.getEdges()) {
             Set<Integer> set = edges.getOrDefault(e.getVertex1(), new HashSet<>());
@@ -41,7 +41,7 @@ public class RealVersionGraph implements IVersionGraph {
             edges.put(e.getVertex1(), set);
         }
 
-        snap.getVertices().forEach(this::l);
+        snap.getVertices().forEach(this::getIntervalSet);
 
         Integer start = this.interval != null ? this.interval.getStartTime() : snap.getTime();
         Integer end = snap.getTime();
@@ -75,7 +75,7 @@ public class RealVersionGraph implements IVersionGraph {
         return edges.getOrDefault(u, new HashSet<>());
     }
 
-    public IntervalSet l(Edge e) {
+    public IntervalSet getIntervalSet(Edge e) {
         if(edgeIntervals.containsKey(e)) {
             return edgeIntervals.get(e);
         }
@@ -106,7 +106,7 @@ public class RealVersionGraph implements IVersionGraph {
         return set;
     }
 
-    public IntervalSet l(Integer v) {
+    public IntervalSet getIntervalSet(Integer v) {
         if(vertexIntervals.containsKey(v)) {
             return vertexIntervals.get(v);
         }

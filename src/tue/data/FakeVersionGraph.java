@@ -54,12 +54,12 @@ public class FakeVersionGraph implements IVersionGraph {
     }
 
     @Override
-    public IntervalSet l(Edge e) {
+    public IntervalSet getIntervalSet(Edge e) {
         return edgeIntervals.getOrDefault(e, new IntervalSet());
     }
 
     @Override
-    public IntervalSet l(Integer v) {
+    public IntervalSet getIntervalSet(Integer v) {
         return vertexIntervals.getOrDefault(v, new IntervalSet());
     }
 }

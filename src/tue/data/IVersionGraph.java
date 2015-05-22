@@ -8,6 +8,6 @@ public interface IVersionGraph {
 
     Set<Integer> neighbours(Integer u);
 
-    IntervalSet l(Edge e);
-    IntervalSet l(Integer v);
+    IntervalSet getIntervalSet(Edge e);
+    IntervalSet getIntervalSet(Integer v);
 }
