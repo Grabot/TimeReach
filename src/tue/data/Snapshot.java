@@ -2,7 +2,6 @@ package tue.data;
 
 import tue.data.stanford.Digraph;
 
-import java.util.List;
 import java.util.Set;
 
 public class Snapshot extends Digraph {
