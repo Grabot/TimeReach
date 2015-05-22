@@ -1,12 +1,10 @@
 package tue.algorithms;
 
-import java.util.Iterator;
 import java.util.Set;
 import java.util.Stack;
 
 import tue.data.Edge;
 import tue.data.IVersionGraph;
-import tue.data.Interval;
 import tue.data.IntervalSet;
 import tue.data.Vertex;
 
@@ -51,6 +49,7 @@ public class ConjuctiveBFS {
     	N.push(u);
     	INT.push(Iq);
 		IntervalSet R = IntervalSet.empty();
+		IntervalSet IN = IntervalSet.empty();
     	while( !N.isEmpty() )
     	{
     		Vertex n = N.pop();
@@ -70,7 +69,12 @@ public class ConjuctiveBFS {
 						}
 						continue;
 					}
-					//TODO IN implementation
+					if( !Iprime.covers(IN))
+					{
+						IN = IN.plus(Iprime);
+						N.push(w);
+						INT.push(Iprime);
+					}
 				}
     		}
     	}
