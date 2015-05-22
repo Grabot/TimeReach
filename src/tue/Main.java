@@ -31,8 +31,7 @@ public class Main {
                 in.addEdge(new Edge(v1, v2), interval);
                 i++;
                 if(i % 10000 == 0) {
-                    System.out.print(i);
-                    System.out.println("");
+                    System.out.println(i);
                 }
             }
             System.out.println("Data loading done");
