@@ -14,7 +14,12 @@ import tue.data.IntervalSet;
  * if there exists a path from u to v in all graph snapshots G_t_m , t_k ≤ t_m ≤ t_l of fG[t_i,t_j].
  */
 public class ConjuctiveBFS {
-    private ConjuctiveBFS () {}
+    
+	public ConjuctiveBFS () 
+    {
+    	
+    }
+    
     public static boolean execute(IVersionGraph in, Integer u, Integer v, IntervalSet Iq) {
     	/**
     	 * Algorithm 3 Conjunctive-BFS(VG_I , u, v, {I_Q})
