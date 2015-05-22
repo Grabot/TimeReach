@@ -1,18 +1,27 @@
 package tue;
 
-import tue.algorithms.TransitiveClosure;
-import tue.data.*;
-
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Scanner;
+
+import tue.algorithms.ConjuctiveBFS;
+import tue.algorithms.TransitiveClosure;
+import tue.data.Edge;
+import tue.data.FakeVersionGraph;
+import tue.data.Interval;
+import tue.data.IntervalSet;
+import tue.data.RealVersionGraph;
+import tue.data.Snapshot;
 
 public class Main {
 
-    public static void main(String[] args) {
-//        RealVersionGraph in = getDemo();
-
-        FakeVersionGraph in = new FakeVersionGraph();
+	private void run()
+	{
+		FakeVersionGraph in = new FakeVersionGraph();
 
         try {
             Scanner sc = new Scanner(new File("data/fb_days_version"));
@@ -39,39 +48,100 @@ public class Main {
             e.printStackTrace();
         }
 
-        getDemo(); 
-        System.out.println("In your face Luuk");
-    }
+        RealVersionGraph graph = new RealVersionGraph();
+        graph = getDemo();
+        
+        //Map<Edge, IntervalSet> mapTest = TransitiveClosure.execute( graph );
 
+        IntervalSet set = new IntervalSet();
+        set.addInterval(new Interval(0, 3));
+        ConjuctiveBFS bfs = new ConjuctiveBFS();
+        boolean test = bfs.execute(graph, 0, 4, set);
+        System.out.println( "In your face Luuk: " + test );
+	}
 
-
-    private static RealVersionGraph getDemo() {
+    private RealVersionGraph getDemo() {
         HashSet<Integer> vertices = new HashSet<Integer>();
         HashSet<Edge> edges = new HashSet<Edge>();
 
         Integer[] vx = new Integer[100];
-        for( int i = 0; i < 8; i++ )
+        for( int i = 0; i < 7; i++ )
         {
             vx[i] = i;
             vertices.add(vx[i]);
         }
         
-        System.out.println("size of vertices: " + vertices.size());
-        for (int i = 0; i < vx.length; i++) { vx[i] = new Integer(i+1); }
-
         List<Snapshot> evolutionGraph = new ArrayList<Snapshot>();
         
-        Edge e1 = new Edge(vx[0], vx[1]);
-        edges.add(e1);
-        edges.add(new Edge(vx[1], vx[3]));
-
+        //evolving graph, snapshot G_t0
+        edges.add(new Edge( vx[0], vx[3] ));
+        edges.add(new Edge( vx[3], vx[0] ));
+        edges.add(new Edge( vx[0], vx[2] ));
+        edges.add(new Edge( vx[1], vx[2] ));
+        edges.add(new Edge( vx[2], vx[5] ));
+        edges.add(new Edge( vx[6], vx[3] ));
+        edges.add(new Edge( vx[6], vx[5] ));
+        edges.add(new Edge( vx[4], vx[5] ));
+        edges.add(new Edge( vx[5], vx[4] ));
+        
         evolutionGraph.add(new Snapshot(1, vertices, edges));
 
-        edges.remove(e1);
-        edges.add(new Edge(vx[2], vx[3]));
+        //clear edges for new snapshot
+        edges.clear();
+        //evolving graph, snapshot G_t1
+        edges.add(new Edge( vx[0], vx[1] ));
+        edges.add(new Edge( vx[0], vx[2] ));
+        edges.add(new Edge( vx[0], vx[3] ));
+        edges.add(new Edge( vx[3], vx[0] ));
+        edges.add(new Edge( vx[1], vx[2] ));
+        edges.add(new Edge( vx[2], vx[5] ));
+        edges.add(new Edge( vx[2], vx[6] ));
+        edges.add(new Edge( vx[6], vx[5] ));
+        edges.add(new Edge( vx[5], vx[1] ));
+        edges.add(new Edge( vx[4], vx[5] ));
+        edges.add(new Edge( vx[5], vx[4] ));
 
         evolutionGraph.add(new Snapshot(2, vertices, edges));
+        
+        //clear edges for new snapshot
+        edges.clear();
+        //evolving graph, snapshot G_t2
+        edges.add(new Edge( vx[0], vx[1] ));
+        edges.add(new Edge( vx[1], vx[0] ));
+        edges.add(new Edge( vx[0], vx[3] ));
+        edges.add(new Edge( vx[3], vx[0] ));
+        edges.add(new Edge( vx[3], vx[2] ));
+        edges.add(new Edge( vx[2], vx[6] ));
+        edges.add(new Edge( vx[6], vx[3] ));
+        edges.add(new Edge( vx[2], vx[5] ));
+        edges.add(new Edge( vx[4], vx[5] ));
+        edges.add(new Edge( vx[5], vx[4] ));
+
+        evolutionGraph.add(new Snapshot(3, vertices, edges));
+        
+        //clear edges for new snapshot
+        edges.clear();
+        //evolving graph, snapshot G_t3
+        edges.add(new Edge( vx[0], vx[1] ));
+        edges.add(new Edge( vx[1], vx[0] ));
+        edges.add(new Edge( vx[0], vx[3] ));
+        edges.add(new Edge( vx[3], vx[2] ));
+        edges.add(new Edge( vx[2], vx[6] ));
+        edges.add(new Edge( vx[6], vx[3] ));
+        edges.add(new Edge( vx[2], vx[5] ));
+        edges.add(new Edge( vx[6], vx[5] )); 
+        edges.add(new Edge( vx[4], vx[1] ));
+        edges.add(new Edge( vx[4], vx[5] ));
+        edges.add(new Edge( vx[5], vx[4] ));
+
+        evolutionGraph.add(new Snapshot(4, vertices, edges));
 
         return new RealVersionGraph(evolutionGraph);
+    }
+    
+
+    public static void main(String[] args) {
+    	Main main = new Main();
+    	main.run();
     }
 }
