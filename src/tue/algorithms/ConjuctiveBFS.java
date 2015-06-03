@@ -50,7 +50,7 @@ public class ConjuctiveBFS {
     	22: Return(false)
     	*/
     	Stack<Integer> N = new Stack<>();
-    	Stack<IntervalSet> INT = new Stack<IntervalSet>();
+    	Stack<IntervalSet> INT = new Stack<>();
     	N.push(u);
     	INT.push(Iq);
 		IntervalSet R = IntervalSet.empty();

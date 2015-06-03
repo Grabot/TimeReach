@@ -1,23 +1,17 @@
 package tue;
 
+import tue.algorithms.ConjuctiveBFS;
+import tue.data.*;
+
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import tue.algorithms.ConjuctiveBFS;
-import tue.data.Edge;
-import tue.data.Interval;
-import tue.data.IntervalSet;
-import tue.data.RealVersionGraph;
-import tue.data.Snapshot;
-
 public class Main {
 
-	private void run()
-	{
-		/*
+    private void run() {
+        /*
 		FakeVersionGraph in = new FakeVersionGraph();
 
         try {
@@ -48,102 +42,98 @@ public class Main {
 
         RealVersionGraph graph = new RealVersionGraph();
         graph = getDemo();
-        
+
         Set<Edge> VersionEdges = graph.getEdges();
-        
+
         System.out.println("size should be 15: " + VersionEdges.size());
         //Map<Edge, IntervalSet> mapTest = TransitiveClosure.execute( graph );
 
         IntervalSet set = new IntervalSet();
         set.addInterval(new Interval(0, 3));
-        ConjuctiveBFS bfs = new ConjuctiveBFS();
-        boolean test = bfs.execute(graph, 0, 4, set);
-        System.out.println( "In your face Luuk: " + test );
-	}
+        boolean test = ConjuctiveBFS.execute(graph, 0, 4, set);
+        System.out.println("In your face Luuk: " + test);
+    }
 
     private RealVersionGraph getDemo() {
         HashSet<Integer> vertices = new HashSet<Integer>();
         HashSet<Edge> edges = new HashSet<Edge>();
 
-        Integer[] vx = new Integer[100];
-        for( int i = 0; i < 7; i++ )
-        {
-            vx[i] = i;
-            vertices.add(vx[i]);
+        for (int i = 0; i < 7; i++) {
+            vertices.add(i);
         }
-        
+
         List<Snapshot> evolutionGraph = new ArrayList<Snapshot>();
-        
+
         edges.clear();
         //evolving graph, snapshot G_t0
-        edges.add(new Edge( vx[0], vx[3] )); //u1 to u4
-        edges.add(new Edge( vx[3], vx[0] )); //u4 to u1
-        edges.add(new Edge( vx[0], vx[2] )); //u1 to u3
-        edges.add(new Edge( vx[1], vx[2] )); //u2 to u3
-        edges.add(new Edge( vx[2], vx[5] )); //u3 to u6
-        edges.add(new Edge( vx[6], vx[3] )); //u7 to u4
-        edges.add(new Edge( vx[6], vx[5] )); //u7 to u6
-        edges.add(new Edge( vx[4], vx[5] )); //u5 to u6
-        edges.add(new Edge( vx[5], vx[4] )); //u6 to u5
-        
+        edges.add(new Edge(1, 4)); //u1 to u4
+        edges.add(new Edge(4, 1)); //u4 to u1
+        edges.add(new Edge(1, 3)); //u1 to u3
+        edges.add(new Edge(2, 3)); //u2 to u3
+        edges.add(new Edge(3, 6)); //u3 to u6
+        edges.add(new Edge(7, 4)); //u7 to u4
+        edges.add(new Edge(7, 6)); //u7 to u6
+        edges.add(new Edge(5, 6)); //u5 to u6
+        edges.add(new Edge(6, 5)); //u6 to u5
+
         evolutionGraph.add(new Snapshot(1, vertices, edges));
 
         //clear edges for new snapshot
-        edges.clear();
+        edges = new HashSet<Edge>();
         //evolving graph, snapshot G_t1
-        edges.add(new Edge( vx[0], vx[1] )); //u1 to u2
-        edges.add(new Edge( vx[0], vx[2] )); //u1 to u3
-        edges.add(new Edge( vx[0], vx[3] )); //u1 to u4
-        edges.add(new Edge( vx[3], vx[0] )); //u4 to u1
-        edges.add(new Edge( vx[1], vx[2] )); //u2 to u3
-        edges.add(new Edge( vx[2], vx[5] )); //u3 to u6
-        edges.add(new Edge( vx[2], vx[6] )); //u3 to u7
-        edges.add(new Edge( vx[6], vx[5] )); //u7 to u6
-        edges.add(new Edge( vx[5], vx[1] )); //u6 to u2
-        edges.add(new Edge( vx[4], vx[5] )); //u5 to u6
-        edges.add(new Edge( vx[5], vx[4] )); //u6 to u5
+        edges.add(new Edge(1, 2)); //u1 to u2
+        edges.add(new Edge(1, 3)); //u1 to u3
+        edges.add(new Edge(1, 4)); //u1 to u4
+        edges.add(new Edge(4, 1)); //u4 to u1
+        edges.add(new Edge(2, 3)); //u2 to u3
+        edges.add(new Edge(3, 6)); //u3 to u6
+        edges.add(new Edge(3, 7)); //u3 to u7
+        edges.add(new Edge(7, 6)); //u7 to u6
+        edges.add(new Edge(6, 2)); //u6 to u2
+        edges.add(new Edge(5, 6)); //u5 to u6
+        edges.add(new Edge(6, 5)); //u6 to u5
 
         evolutionGraph.add(new Snapshot(2, vertices, edges));
-        
+
         //clear edges for new snapshot
-        edges.clear();
+        edges = new HashSet<>();
         //evolving graph, snapshot G_t2
-        edges.add(new Edge( vx[0], vx[1] ));
-        edges.add(new Edge( vx[1], vx[0] ));
-        edges.add(new Edge( vx[0], vx[3] ));
-        edges.add(new Edge( vx[3], vx[0] ));
-        edges.add(new Edge( vx[3], vx[2] ));
-        edges.add(new Edge( vx[2], vx[6] ));
-        edges.add(new Edge( vx[6], vx[3] ));
-        edges.add(new Edge( vx[2], vx[5] ));
-        edges.add(new Edge( vx[4], vx[5] ));
-        edges.add(new Edge( vx[5], vx[4] ));
+        edges.add(new Edge(1, 2));
+        edges.add(new Edge(2, 1));
+        edges.add(new Edge(1, 4));
+        edges.add(new Edge(4, 1));
+        edges.add(new Edge(4, 3));
+        edges.add(new Edge(3, 7));
+        edges.add(new Edge(7, 4));
+        edges.add(new Edge(3, 6));
+        edges.add(new Edge(5, 6));
+        edges.add(new Edge(6, 5));
 
         evolutionGraph.add(new Snapshot(3, vertices, edges));
-        
+
         //clear edges for new snapshot
-        edges.clear();
+        edges = new HashSet<Edge>();
         //evolving graph, snapshot G_t3
-        edges.add(new Edge( vx[0], vx[1] ));
-        edges.add(new Edge( vx[1], vx[0] ));
-        edges.add(new Edge( vx[0], vx[3] ));
-        edges.add(new Edge( vx[3], vx[2] ));
-        edges.add(new Edge( vx[2], vx[6] ));
-        edges.add(new Edge( vx[6], vx[3] ));
-        edges.add(new Edge( vx[2], vx[5] ));
-        edges.add(new Edge( vx[6], vx[5] )); 
-        edges.add(new Edge( vx[4], vx[1] ));
-        edges.add(new Edge( vx[4], vx[5] ));
-        edges.add(new Edge( vx[5], vx[4] ));
+        edges.add(new Edge(1, 2));
+        edges.add(new Edge(2, 1));
+        edges.add(new Edge(1, 4));
+        edges.add(new Edge(4, 3));
+        edges.add(new Edge(3, 7));
+        edges.add(new Edge(7, 4));
+        edges.add(new Edge(3, 6));
+        edges.add(new Edge(7, 6));
+        edges.add(new Edge(5, 2));
+        edges.add(new Edge(5, 6));
+        edges.add(new Edge(6, 5));
 
         evolutionGraph.add(new Snapshot(4, vertices, edges));
 
         return new RealVersionGraph(evolutionGraph);
     }
-    
+
 
     public static void main(String[] args) {
-    	Main main = new Main();
-    	main.run();
+        Main main = new Main();
+        main.run();
     }
 }
