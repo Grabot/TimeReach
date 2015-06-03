@@ -1,5 +1,6 @@
 package tue.algorithms;
 
+import java.util.Objects;
 import java.util.Set;
 import java.util.Stack;
 
@@ -64,7 +65,7 @@ public class ConjuctiveBFS {
 				IntervalSet Iprime = i.cross(in.getIntervalSet(e));
 				if(!Iprime.isEmpty())
 				{
-					if( w == v )
+					if(Objects.equals(w, v))
 					{
 						R = R.plus(Iprime);
 						if( i.covers(R))
