@@ -41,7 +41,7 @@ public class IntervalSet {
 
     public void addInterval(Interval interval) {
         // Add the interval to the bitwise representation
-        bitwiseRepresentation.set(interval.getStartTime(), interval.getEndTime(), true);
+        bitwiseRepresentation.set(interval.getStartTime(), interval.getEndTime() + 1, true);
     }
 
     public static IntervalSet empty() {

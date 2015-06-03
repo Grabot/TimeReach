@@ -76,7 +76,7 @@ public class Main {
         edges.add(new Edge(4, 5)); //u5 to u6
         edges.add(new Edge(5, 4)); //u6 to u5
 
-        evolutionGraph.add(new Snapshot(1, vertices, edges));
+        evolutionGraph.add(new Snapshot(0, vertices, edges));
 
         //clear edges for new snapshot
         edges = new HashSet<Edge>();
@@ -93,7 +93,7 @@ public class Main {
         edges.add(new Edge(4, 5)); //u5 to u6
         edges.add(new Edge(5, 4)); //u6 to u5
 
-        evolutionGraph.add(new Snapshot(2, vertices, edges));
+        evolutionGraph.add(new Snapshot(1, vertices, edges));
 
         //clear edges for new snapshot
         edges = new HashSet<>();
@@ -109,7 +109,7 @@ public class Main {
         edges.add(new Edge(4, 5));
         edges.add(new Edge(5, 4));
 
-        evolutionGraph.add(new Snapshot(3, vertices, edges));
+        evolutionGraph.add(new Snapshot(2, vertices, edges));
 
         //clear edges for new snapshot
         edges = new HashSet<Edge>();
@@ -126,7 +126,7 @@ public class Main {
         edges.add(new Edge(4, 5));
         edges.add(new Edge(5, 4));
 
-        evolutionGraph.add(new Snapshot(4, vertices, edges));
+        evolutionGraph.add(new Snapshot(3, vertices, edges));
 
         return new RealVersionGraph(evolutionGraph);
     }

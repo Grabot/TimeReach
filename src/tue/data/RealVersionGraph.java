@@ -1,6 +1,8 @@
 package tue.data;
 
 import java.util.*;
+import java.util.function.Function;
+import java.util.function.Predicate;
 
 /**
  * NOTE: fG = fancy G that UTF8 does not have
@@ -24,24 +26,18 @@ public class RealVersionGraph implements IVersionGraph {
 
     public RealVersionGraph(List<Snapshot> eg) {
         assert eg.size() >= 1;
-
-        Integer start = eg.get(0).getTime();
-        Integer end = eg.get(eg.size() - 1).getTime();
         eg.forEach(this::addSnapshot);
+        eg.stream().map(Snapshot::getEdges).forEach(x -> x.forEach(this::getIntervalSet));
     }
 
     public void addSnapshot(Snapshot snap) {
         this.evolvingGraph.add(snap);
-
-        snap.getEdges().forEach(this::getIntervalSet);
 
         for(Edge e : snap.getEdges()) {
             Set<Integer> set = edges.getOrDefault(e.getVertex1(), new HashSet<>());
             set.add(e.getVertex2());
             edges.put(e.getVertex1(), set);
         }
-
-        snap.getVertices().forEach(this::getIntervalSet);
 
         Integer start = this.interval != null ? this.interval.getStartTime() : snap.getTime();
         Integer end = snap.getTime();
@@ -79,29 +75,7 @@ public class RealVersionGraph implements IVersionGraph {
         if(edgeIntervals.containsKey(e)) {
             return edgeIntervals.get(e);
         }
-
-        IntervalSet set = new IntervalSet();
-        boolean inInterval = false;
-        Integer start = null;
-        Integer end = null;
-        for (Snapshot graph : evolvingGraph){
-            if(graph.getEdges().contains(e))
-            {
-                if(!inInterval) {
-                    start = graph.getTime();
-                    inInterval = true;
-                }
-
-                end = graph.getTime();
-            } else {
-                inInterval = false;
-                if(start != null && end != null) {
-                    set.addInterval(new Interval(start, end));
-                    start = null;
-                    end = null;
-                }
-            }
-        }
+        IntervalSet set = calculateIntervals(Snapshot::getEdges, e);
         edgeIntervals.put(e, set);
         return set;
     }
@@ -110,13 +84,19 @@ public class RealVersionGraph implements IVersionGraph {
         if(vertexIntervals.containsKey(v)) {
             return vertexIntervals.get(v);
         }
+        IntervalSet set = calculateIntervals(Snapshot::getVertices, v);
+        vertexIntervals.put(v, set);
+        return set;
+    }
 
+    private IntervalSet calculateIntervals(Function<Snapshot, Set> contain, Object thing) {
         IntervalSet set = new IntervalSet();
         boolean inInterval = false;
         Integer start = null;
         Integer end = null;
         for (Snapshot graph : evolvingGraph){
-            if(graph.getVertices().contains(v))
+            Set holder = contain.apply(graph);
+            if (holder.contains(thing))
             {
                 if(!inInterval) {
                     start = graph.getTime();
@@ -133,7 +113,9 @@ public class RealVersionGraph implements IVersionGraph {
                 }
             }
         }
-        vertexIntervals.put(v, set);
+        if(inInterval && start != null && end != null) {
+            set.addInterval(new Interval(start, end));
+        }
         return set;
     }
 }
