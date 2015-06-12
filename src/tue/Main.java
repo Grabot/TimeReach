@@ -40,21 +40,18 @@ public class Main {
         }
         */
 
-        RealVersionGraph graph = new RealVersionGraph();
-        graph = getDemo();
+//        RealVersionGraph graph = new RealVersionGraph();
+        SCC graph = getDemo();
 
-        Set<Edge> VersionEdges = graph.getEdges();
-
-        System.out.println("size should be 15: " + VersionEdges.size());
-        //Map<Edge, IntervalSet> mapTest = TransitiveClosure.execute( graph );
 
         IntervalSet set = new IntervalSet();
-        set.addInterval(new Interval(0, 3));
-        boolean test = ConjuctiveBFS.execute(graph, 0, 4, set);
-        System.out.println("In your face Luuk: " + test);
+        set.addInterval(new Interval(0, 1));
+//        boolean test = ConjuctiveBFS.execute(graph, 0, 4, set);
+        boolean test = graph.TimeReach(0, 6, set);
+        System.out.println("In your face Sander: " + test);
     }
 
-    private RealVersionGraph getDemo() {
+    private SCC getDemo() {
         HashSet<Integer> vertices = new HashSet<Integer>();
         HashSet<Edge> edges = new HashSet<Edge>();
 
@@ -128,7 +125,8 @@ public class Main {
 
         evolutionGraph.add(new Snapshot(3, vertices, edges));
 
-        return new RealVersionGraph(evolutionGraph);
+//        return new RealVersionGraph(evolutionGraph);
+        return new SCC(evolutionGraph);
     }
 
 

@@ -1,4 +1,5 @@
 //import junit.framework.TestCase;
+import com.pholser.junit.quickcheck.generator.InRange;
 import tue.data.Interval;
 import tue.data.IntervalSet;
 
@@ -17,10 +18,8 @@ import static org.junit.Assume.*;
 
 @RunWith(Theories.class)
 public class IntervalSetTest {
-    @Theory public void concatenatedStringLength(@ForAll Integer start, @ForAll Integer end) {
-        assumeThat(start, lessThanOrEqualTo(end));
-        assumeThat(start, greaterThanOrEqualTo(0));
-        assumeThat(end, greaterThanOrEqualTo(0));
+    @Theory public void concatenatedStringLength(@ForAll @InRange(min = "0") Integer start, @ForAll @InRange(min = "0") Integer end) {
+        if(start > end) return;
 
         IntervalSet s1 = new IntervalSet();
         s1.addInterval(new Interval(start, end));

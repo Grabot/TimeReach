@@ -51,4 +51,12 @@ public class IntervalSet {
 	public boolean isEmpty() {
 		return bitwiseRepresentation.isEmpty();
 	}
+
+    public int getStartTime() {
+        return bitwiseRepresentation.nextSetBit(0);
+    }
+
+    public int getEndTime() {
+        return bitwiseRepresentation.previousSetBit(bitwiseRepresentation.size() - 1);
+    }
 }

@@ -33,7 +33,6 @@ package tue.algorithms.stanford;
  *************************************************************************/
 
 import tue.data.stanford.Digraph;
-import tue.data.stanford.DirectedDFS;
 
 /**
  *  The <tt>TransitiveClosure</tt> class represents a data type for

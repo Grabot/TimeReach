@@ -1,5 +1,4 @@
-package tue.data.stanford;
-
+package tue.algorithms.stanford;
 /*************************************************************************
  *  Compilation:  javac DirectedDFS.java
  *  Execution:    java DirectedDFS V E
@@ -20,6 +19,9 @@ package tue.data.stanford;
  *  0 1 2 3 4 5 6 8 9 10 11 12
  *
  *************************************************************************/
+
+import tue.data.stanford.Digraph;
+
 /**
  *  The <tt>DirectedDFS</tt> class represents a data type for
  *  determining the vertices reachable from a given source vertex <em>s</em>
@@ -93,31 +95,5 @@ public class DirectedDFS {
     public int count() {
         return count;
     }
-
-    /**
-     * Unit tests the <tt>DirectedDFS</tt> data type.
-     */
-//    public static void main(String[] args) {
-//
-//        // read in digraph from command-line argument
-//        In in = new In(args[0]);
-//        Digraph G = new Digraph(in);
-//
-//        // read in sources from command-line arguments
-//        Bag<Integer> sources = new Bag<Integer>();
-//        for (int i = 1; i < args.length; i++) {
-//            int s = Integer.parseInt(args[i]);
-//            sources.add(s);
-//        }
-//
-//        // multiple-source reachability
-//        DirectedDFS dfs = new DirectedDFS(G, sources);
-//
-//        // print out vertices reachable from sources
-//        for (int v = 0; v < G.V(); v++) {
-//            if (dfs.marked(v)) StdOut.print(v + " ");
-//        }
-//        StdOut.println();
-//    }
 
 }
