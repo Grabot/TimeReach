@@ -44,8 +44,6 @@ public class Main {
         }
         */
 
-
-
         IntervalSet set = new IntervalSet();
         set.addInterval(new Interval(0, 1));
         
