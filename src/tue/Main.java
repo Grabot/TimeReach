@@ -3,8 +3,10 @@ package tue;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 
 import tue.algorithms.ConjuctiveBFS;
+import tue.algorithms.TransitiveClosure;
 import tue.data.Edge;
 import tue.data.Interval;
 import tue.data.IntervalSet;
@@ -45,14 +47,24 @@ public class Main {
         */
 
         IntervalSet set = new IntervalSet();
-        set.addInterval(new Interval(0, 1));
-        
+        set.addInterval(new Interval(1, 1));
+
+        int node1 = 1;
+        int node2 = 3;
+
+
+        node1--;
+        node2--;
         RealVersionGraph graph = new RealVersionGraph(getDemo());
-        boolean test = ConjuctiveBFS.execute(graph, 0, 4, set);
+        Map<Edge, IntervalSet> map = TransitiveClosure.execute(graph);
+        IntervalSet resultSet = map.get(new Edge(node1, node2));
+        System.out.println("Truth: " + resultSet.covers(set));
+
+        boolean test = ConjuctiveBFS.execute(graph, node1, node2, set);
         System.out.println("In your face Sander: " + test);
         
         SCC graph2 = new SCC(getDemo());
-        boolean test2 = graph2.TimeReach(0, 6, set);
+        boolean test2 = graph2.TimeReach(node1, node2, set);
         System.out.println("In your face Nanne: " + test2);
         
     }
