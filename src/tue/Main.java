@@ -1,12 +1,16 @@
 package tue;
 
-import tue.algorithms.ConjuctiveBFS;
-import tue.data.*;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+
+import tue.algorithms.ConjuctiveBFS;
+import tue.data.Edge;
+import tue.data.Interval;
+import tue.data.IntervalSet;
+import tue.data.RealVersionGraph;
+import tue.data.SCC;
+import tue.data.Snapshot;
 
 public class Main {
 
@@ -40,18 +44,22 @@ public class Main {
         }
         */
 
-//        RealVersionGraph graph = new RealVersionGraph();
-        SCC graph = getDemo();
 
 
         IntervalSet set = new IntervalSet();
         set.addInterval(new Interval(0, 1));
-//        boolean test = ConjuctiveBFS.execute(graph, 0, 4, set);
-        boolean test = graph.TimeReach(0, 6, set);
+        
+        RealVersionGraph graph = new RealVersionGraph(getDemo());
+        boolean test = ConjuctiveBFS.execute(graph, 0, 4, set);
         System.out.println("In your face Sander: " + test);
+        
+        SCC graph2 = new SCC(getDemo());
+        boolean test2 = graph2.TimeReach(0, 6, set);
+        System.out.println("In your face Nanne: " + test2);
+        
     }
 
-    private SCC getDemo() {
+    private List<Snapshot> getDemo() {
         HashSet<Integer> vertices = new HashSet<Integer>();
         HashSet<Edge> edges = new HashSet<Edge>();
 
@@ -124,9 +132,8 @@ public class Main {
         edges.add(new Edge(5, 4));
 
         evolutionGraph.add(new Snapshot(3, vertices, edges));
-
-//        return new RealVersionGraph(evolutionGraph);
-        return new SCC(evolutionGraph);
+	
+        return evolutionGraph;
     }
 
 
