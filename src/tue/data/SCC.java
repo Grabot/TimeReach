@@ -9,7 +9,7 @@ import java.util.stream.IntStream;
 
 public class SCC {
     Map<TarjanSCC, Integer> map = new LinkedHashMap<>();
-    Map<Snapshot, TarjanSCC> tarjans = new HashMap<>();
+    Map<Integer, TarjanSCC> tarjans = new HashMap<>();
     int size;
 
     // SCC Graph Snaphots
@@ -22,7 +22,7 @@ public class SCC {
         // Tarjan’s algorithm [24], to identify the corresponding set of SCCs.
         for (Snapshot snapshot : snapshots) {
             TarjanSCC tarjan = new TarjanSCC(snapshot);
-            tarjans.put(snapshot, tarjan);
+            tarjans.put(snapshot.getTime(), tarjan);
             map.put(tarjan, snapshot.getTime());
         }
         size = snapshots.size();
@@ -32,7 +32,7 @@ public class SCC {
             Set<Integer> vertices = new HashSet<>();
             Set<Edge> edges = new HashSet<>();
 
-            TarjanSCC tarjanSCC = tarjans.get(snapshot);
+            TarjanSCC tarjanSCC = tarjans.get(snapshot.getTime());
             IntStream.range(vcId, vcId+tarjanSCC.count()).forEach(vertices::add);
 
 
@@ -91,17 +91,22 @@ public class SCC {
         for (int i : stream) {
             int sc1 = mapU.get(i);
             int sc2 = mapV.get(i);
+
+            Snapshot snapshot = graphSnapshots.get(i);
+
+            if(Objects.equals(u, v) && tarjans.get(i).count(u) == 1) {
+                continue;
+            }
+
             if(sc1 == sc2) {
                 return true;
             } else {
-                Snapshot snapshot = graphSnapshots.get(i);
-
                 if(!snapshot.getVertices().contains(sc1) || !snapshot.getVertices().contains(sc2)) {
                     continue;
                 }
 
                 DirectedDFS dfs = new DirectedDFS(snapshot, sc1);
-                if(dfs.marked(sc2)) {
+                if (dfs.marked(sc2)) {
                     return true;
                 }
             }

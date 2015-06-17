@@ -57,6 +57,7 @@ public class TarjanSCC {
 
     private boolean[] marked;        // marked[v] = has v been visited?
     private int[] id;                // id[v] = id of strong component containing v
+    private int[] size;
     private int[] low;               // low[v] = low number of v
     private int pre;                 // preorder number counter
     private int count;               // number of strongly-connected components
@@ -74,6 +75,11 @@ public class TarjanSCC {
         low = new int[G.V()];
         for (int v = 0; v < G.V(); v++) {
             if (!marked[v]) dfs(G, v);
+        }
+
+        size = new int[count];
+        for (int i = 0; i < id.length; i++) {
+            size[id(i)]++;
         }
 
         // check that id[] gives strong components
@@ -98,7 +104,6 @@ public class TarjanSCC {
         } while (w != v);
         count++;
     }
-
 
     /**
      * Returns the number of strong components.
@@ -139,6 +144,10 @@ public class TarjanSCC {
             }
         }
         return true;
+    }
+
+    public int count(Integer u) {
+        return size[id[u]];
     }
 
     /**
