@@ -46,27 +46,51 @@ public class Main {
         }
         */
 
-        IntervalSet set = new IntervalSet();
-        set.addInterval(new Interval(3, 3));
-
-        int node1 = 1;
-        int node2 = 7;
-
-        node1--;
-        node2--;
-        
-        RealVersionGraph graph = new RealVersionGraph(getDemo());
-        Map<Edge, IntervalSet> map = TransitiveClosure.execute(graph);
-        IntervalSet resultSet = map.get(new Edge(node1, node2));
-        System.out.println("Truth: " + resultSet.covers(set));
-
-        boolean test = ConjuctiveBFS.execute(graph, node1, node2, set);
-        System.out.println("In your face Sander: " + test);
-        
-        SCC graph2 = new SCC(getDemo());
-        boolean test2 = graph2.TimeReach(node1, node2, set);
-        System.out.println("In your face Nanne: " + test2);
-        
+    	int times = 0;
+    	for( int x = 0; x <= 3; x++ )
+    	{
+    		for( int y = 0; y <= 3; y++ )
+    		{
+		    	//loop over all 7 nodes twice for all possible combinations
+		    	for( int i = 1; i <= 7; i++ )
+		    	{
+		    		for ( int j = 1; j <= 7; j++ )
+		    		{
+		    			if( y >= x )
+		    			{
+			    			times ++;
+					        IntervalSet set = new IntervalSet();
+					        set.addInterval(new Interval(x, y));
+				
+					        int node1 = i;
+					        int node2 = j;
+					
+					        node1--;
+					        node2--;
+					        
+					        RealVersionGraph graph = new RealVersionGraph(getDemo());
+					        Map<Edge, IntervalSet> map = TransitiveClosure.execute(graph);
+					        IntervalSet resultSet = map.get(new Edge(node1, node2));
+					        boolean truth = resultSet.covers(set);
+					        //System.out.println("Truth: " + truth);
+					
+					        boolean test = ConjuctiveBFS.execute(graph, node1, node2, set);
+					        //System.out.println("In your face Sander: " + test);
+					        
+					        SCC graph2 = new SCC(getDemo());
+					        boolean test2 = graph2.TimeReach(node1, node2, set);
+					        //System.out.println("In your face Nanne: " + test2);
+					        
+					        if( !truth == test || !test == test2 || !truth == test2 )
+					        {
+					        	System.out.println("not good " + " at intervalset (" + x + ", " + y + ")" + " for node " + i + " to " + j );
+					        }
+		    			}
+		    		}
+		    	}
+    		}
+    	}
+    	System.out.println("ran " + times + " times" );
     }
 
     private List<Snapshot> getDemo() {
