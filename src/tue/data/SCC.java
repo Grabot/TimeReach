@@ -27,24 +27,31 @@ public class SCC {
         }
         size = snapshots.size();
 
+        int vcId = 0;
         for (Snapshot snapshot : snapshots) {
             Set<Integer> vertices = new HashSet<>();
             Set<Edge> edges = new HashSet<>();
 
             TarjanSCC tarjanSCC = tarjans.get(snapshot);
-            IntStream.range(0, tarjanSCC.count()).forEach(vertices::add);
+            IntStream.range(vcId, vcId+tarjanSCC.count()).forEach(vertices::add);
 
+
+            final int finalVcId = vcId;
             snapshot.getEdges()
                     .stream()
+                    .filter(edge -> tarjanSCC.id(edge.getVertex1()) != tarjanSCC.id(edge.getVertex2()))
                     .map(edge ->
                             new Edge(
-                                    tarjanSCC.id(edge.getVertex1()),
-                                    tarjanSCC.id(edge.getVertex2())))
+                                    finalVcId + tarjanSCC.id(edge.getVertex1()),
+                                    finalVcId + tarjanSCC.id(edge.getVertex2())
+                            ))
                     .collect(Collectors.toSet())
                     .forEach(edges::add);
 
             // combine it
             graphSnapshots.add(new Snapshot(snapshot.getTime(), vertices, edges));
+
+//            vcId += tarjanSCC.count();
         }
     }
 
@@ -62,7 +69,7 @@ public class SCC {
         int i = 0;
         for (TarjanSCC scc : map.keySet()) {
             result.put(map.get(scc), i + scc.id(v));
-            i += scc.count();
+//            i += scc.count();
         }
         return result;
     }
@@ -89,8 +96,7 @@ public class SCC {
             } else {
                 Snapshot snapshot = graphSnapshots.get(i);
 
-                if(!snapshot.getVertices().contains(sc1) ||
-                !snapshot.getVertices().contains(sc2)) {
+                if(!snapshot.getVertices().contains(sc1) || !snapshot.getVertices().contains(sc2)) {
                     continue;
                 }
 
