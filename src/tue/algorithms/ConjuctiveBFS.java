@@ -1,5 +1,8 @@
 package tue.algorithms;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.Stack;
@@ -21,7 +24,7 @@ public class ConjuctiveBFS {
     	
     }
     
-    public static boolean execute(IVersionGraph in, Integer u, Integer v, IntervalSet Iq) {
+    public static boolean execute(IVersionGraph vg, Integer u, Integer v, IntervalSet Iq) {
     	/**
     	 * Algorithm 3 Conjunctive-BFS(VG_I , u, v, {I_Q})
     	 * Input: Version graph VG_I , nodes u, v, interval I_Q subset
@@ -54,15 +57,22 @@ public class ConjuctiveBFS {
     	N.push(u);
     	INT.push(Iq);
 		IntervalSet R = IntervalSet.empty();
-		IntervalSet IN = IntervalSet.empty();
+		Map<Integer, IntervalSet> IN = new HashMap<>();
+		for(Integer tmp : vg.getVertices()) {
+			IN.put(tmp, IntervalSet.empty());
+		}
+		IntervalSet.empty();
     	while( !N.isEmpty() )
     	{
 			Integer n = N.pop();
+//			System.out.println("Searching in "+(n+1) + " N size="+N.size());
     		IntervalSet i = INT.pop();
-    		Set<Integer> neighbours = in.neighbours(n);
-    		for(Integer w : neighbours) {
+    		Set<Integer> neighbours = vg.neighbours(n);
+    		bla: for(Integer w : neighbours) {
     			Edge e = new Edge(n, w);
-				IntervalSet Iprime = i.cross(in.getIntervalSet(e));
+				IntervalSet Iprime = i.cross(vg.getIntervalSet(e));
+//				System.out.println((u+1) + "-->" + (w+1) +" (searching for "+(v+1)+"), "+i.print() + "x" + vg.getIntervalSet(e).print() +"=" + Iprime.print());
+				
 				if(!Iprime.isEmpty())
 				{
 					if(Objects.equals(w, v))
@@ -72,11 +82,11 @@ public class ConjuctiveBFS {
 						{
 							return true;
 						}
-						continue;
+						continue bla;
 					}
-					if( !Iprime.covers(IN))
+					if( !Iprime.covers(IN.get(w)))
 					{
-						IN = IN.plus(Iprime);
+						IN.put(w, IN.get(w).plus(Iprime));
 						N.push(w);
 						INT.push(Iprime);
 					}

@@ -59,4 +59,9 @@ public class IntervalSet {
     public int getEndTime() {
         return bitwiseRepresentation.previousSetBit(bitwiseRepresentation.size() - 1);
     }
+
+	public String print() {
+		// TODO Auto-generated method stub
+		return "["+ getStartTime() +"," + getEndTime()+"]";
+	}
 }

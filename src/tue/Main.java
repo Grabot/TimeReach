@@ -47,14 +47,14 @@ public class Main {
         */
 
         IntervalSet set = new IntervalSet();
-        set.addInterval(new Interval(1, 1));
+        set.addInterval(new Interval(3, 3));
 
         int node1 = 1;
-        int node2 = 3;
-
+        int node2 = 7;
 
         node1--;
         node2--;
+        
         RealVersionGraph graph = new RealVersionGraph(getDemo());
         Map<Edge, IntervalSet> map = TransitiveClosure.execute(graph);
         IntervalSet resultSet = map.get(new Edge(node1, node2));
