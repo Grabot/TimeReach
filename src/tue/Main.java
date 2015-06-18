@@ -7,12 +7,7 @@ import java.util.Map;
 
 import tue.algorithms.ConjuctiveBFS;
 import tue.algorithms.TransitiveClosure;
-import tue.data.Edge;
-import tue.data.Interval;
-import tue.data.IntervalSet;
-import tue.data.RealVersionGraph;
-import tue.data.SCC;
-import tue.data.Snapshot;
+import tue.data.*;
 
 public class Main {
 
@@ -46,6 +41,7 @@ public class Main {
         }
         */
 
+        /*
     	int times = 0;
     	for( int x = 0; x <= 3; x++ )
     	{
@@ -77,13 +73,13 @@ public class Main {
 					        boolean test = ConjuctiveBFS.execute(graph, node1, node2, set);
 					        //System.out.println("In your face Sander: " + test);
 					        
-					        SCC graph2 = new SCC(getDemo());
-					        boolean test2 = graph2.TimeReach(node1, node2, set);
+					        //SCC graph2 = new SCC(getDemo());
+					        //boolean test2 = graph2.TimeReach(node1, node2, set);
 					        //System.out.println("In your face Nanne: " + test2);
 					        
-					        if( !truth == test || !test == test2 || !truth == test2 )
-					        {
-					        	System.out.println("not good " + " at intervalset (" + x + ", " + y + ")" + " for node " + i + " to " + j );
+					        //if( !truth == test || !test == test2 || !truth == test2 )
+					        //{
+					        //	System.out.println("not good " + " at intervalset (" + x + ", " + y + ")" + " for node " + i + " to " + j );
 					        }
 		    			}
 		    		}
@@ -91,6 +87,16 @@ public class Main {
     		}
     	}
     	System.out.println("ran " + times + " times" );
+    	*/
+
+        pbTest();
+    }
+
+    private void pbTest()
+    {
+        String file_fbdata = "./data/fb_days_version";
+
+        VersionGraphFactory.create(file_fbdata);
     }
 
     private List<Snapshot> getDemo() {
