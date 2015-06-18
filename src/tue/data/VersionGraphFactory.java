@@ -29,7 +29,7 @@ public class VersionGraphFactory {
             if (startTime == -1 || timeEdge.startTime < startTime) {
                 startTime = timeEdge.startTime;
             }
-            if (endTime == -1 || timeEdge.endTime < endTime) {
+            if (endTime == -1 || timeEdge.endTime > endTime) {
                 endTime = timeEdge.endTime;
             }
         }
@@ -53,7 +53,7 @@ public class VersionGraphFactory {
             }
 
             snapshots.add(new Snapshot(i, vertices, edges));
-            System.out.println(snapshots.toString());
+            //System.out.println(snapshots.toString());
         }
     }
 
