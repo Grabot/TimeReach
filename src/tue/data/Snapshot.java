@@ -1,10 +1,11 @@
 package tue.data;
 
 import tue.data.stanford.Digraph;
+import tue.data.stanford.ImprovedDigraph;
 
 import java.util.Set;
 
-public class Snapshot extends Digraph {
+public class Snapshot extends ImprovedDigraph {
     private Integer time;
     private Set<Integer> vertices;
     private Set<Edge> edges;

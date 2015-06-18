@@ -21,6 +21,7 @@ package tue.algorithms.stanford;
  *************************************************************************/
 
 import tue.data.stanford.Digraph;
+import tue.data.stanford.IDigraph;
 
 import java.util.Stack;
 
@@ -68,7 +69,7 @@ public class TarjanSCC {
      * Computes the strong components of the digraph <tt>G</tt>.
      * @param G the digraph
      */
-    public TarjanSCC(Digraph G) {
+    public TarjanSCC(IDigraph G) {
         marked = new boolean[G.V()];
         stack = new Stack<Integer>();
         id = new int[G.V()];
@@ -86,7 +87,7 @@ public class TarjanSCC {
         assert check(G);
     }
 
-    private void dfs(Digraph G, int v) {
+    private void dfs(IDigraph G, int v) {
         marked[v] = true;
         low[v] = pre++;
         int min = low[v];
@@ -135,7 +136,7 @@ public class TarjanSCC {
     }
 
     // does the id[] array contain the strongly connected components?
-    private boolean check(Digraph G) {
+    private boolean check(IDigraph G) {
         TransitiveClosure tc = new TransitiveClosure(G);
         for (int v = 0; v < G.V(); v++) {
             for (int w = 0; w < G.V(); w++) {

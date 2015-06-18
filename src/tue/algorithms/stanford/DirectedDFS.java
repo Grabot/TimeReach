@@ -21,6 +21,7 @@ package tue.algorithms.stanford;
  *************************************************************************/
 
 import tue.data.stanford.Digraph;
+import tue.data.stanford.IDigraph;
 
 /**
  *  The <tt>DirectedDFS</tt> class represents a data type for
@@ -50,7 +51,7 @@ public class DirectedDFS {
      * @param G the digraph
      * @param s the source vertex
      */
-    public DirectedDFS(Digraph G, int s) {
+    public DirectedDFS(IDigraph G, int s) {
         marked = new boolean[G.V()];
         dfs(G, s);
     }
@@ -61,14 +62,14 @@ public class DirectedDFS {
      * @param G the graph
      * @param sources the source vertices
      */
-    public DirectedDFS(Digraph G, Iterable<Integer> sources) {
+    public DirectedDFS(IDigraph G, Iterable<Integer> sources) {
         marked = new boolean[G.V()];
         for (int v : sources) {
             if (!marked[v]) dfs(G, v);
         }
     }
 
-    private void dfs(Digraph G, int v) {
+    private void dfs(IDigraph G, int v) {
         count++;
         marked[v] = true;
         for (int w : G.adj(v)) {

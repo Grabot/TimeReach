@@ -33,6 +33,7 @@ package tue.algorithms.stanford;
  *************************************************************************/
 
 import tue.data.stanford.Digraph;
+import tue.data.stanford.IDigraph;
 
 /**
  *  The <tt>TransitiveClosure</tt> class represents a data type for
@@ -56,7 +57,7 @@ public class TransitiveClosure {
      * Computes the transitive closure of the digraph <tt>G</tt>.
      * @param G the digraph
      */
-    public TransitiveClosure(Digraph G) {
+    public TransitiveClosure(IDigraph G) {
         tc = new DirectedDFS[G.V()];
         for (int v = 0; v < G.V(); v++)
             tc[v] = new DirectedDFS(G, v);

@@ -52,7 +52,7 @@ import java.util.Stack;
  *  @author Kevin Wayne
  */
 
-public class Digraph {
+public class Digraph implements IDigraph {
     private final int V;
     private int E;
     private Bag<Integer>[] adj;
@@ -125,6 +125,7 @@ public class Digraph {
      * Returns the number of vertices in the digraph.
      * @return the number of vertices in the digraph
      */
+    @Override
     public int V() {
         return V;
     }
@@ -133,6 +134,7 @@ public class Digraph {
      * Returns the number of edges in the digraph.
      * @return the number of edges in the digraph
      */
+    @Override
     public int E() {
         return E;
     }
@@ -150,6 +152,7 @@ public class Digraph {
      * @param w the head vertex
      * @throws java.lang.IndexOutOfBoundsException unless both 0 <= v < V and 0 <= w < V
      */
+    @Override
     public void addEdge(int v, int w) {
         validateVertex(v);
         validateVertex(w);
@@ -163,6 +166,7 @@ public class Digraph {
      * @param v the vertex
      * @throws java.lang.IndexOutOfBoundsException unless 0 <= v < V
      */
+    @Override
     public Iterable<Integer> adj(int v) {
         validateVertex(v);
         return adj[v];
@@ -175,6 +179,7 @@ public class Digraph {
      * @param v the vertex
      * @throws java.lang.IndexOutOfBoundsException unless 0 <= v < V
      */
+    @Override
     public int outdegree(int v) {
         validateVertex(v);
         return adj[v].size();
@@ -184,6 +189,7 @@ public class Digraph {
      * Returns the reverse of the digraph.
      * @return the reverse of the digraph
      */
+    @Override
     public Digraph reverse() {
         Digraph R = new Digraph(V);
         for (int v = 0; v < V; v++) {
@@ -200,6 +206,7 @@ public class Digraph {
      * @return the number of vertices <em>V</em>, followed by the number of edges <em>E</em>,
      *    followed by the <em>V</em> adjacency lists
      */
+    @Override
     public String toString() {
         StringBuilder s = new StringBuilder();
         String NEWLINE = System.getProperty("line.separator");
