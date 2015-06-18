@@ -35,7 +35,7 @@ public class VersionGraphFactory {
         }
 
         // Create all snapshots
-        List<Snapshot> snapshots = new ArrayList<Snapshot>();
+        ArrayList<Snapshot> snapshots = new ArrayList<Snapshot>();
         HashSet<Integer> vertices;
         HashSet<Edge> edges;
         for (int i = startTime; i <= endTime; i++ ) {
@@ -45,7 +45,7 @@ public class VersionGraphFactory {
             for (TimeEdge timeEdge : timeEdges) {
 
                 // When edge time is within snapshot
-                if (timeEdge.startTime >= i && timeEdge.endTime <= i) {
+                if (timeEdge.startTime <= i && timeEdge.endTime <= i) {
                     vertices.add(timeEdge.v1);
                     vertices.add(timeEdge.v2);
                     edges.add(new Edge(timeEdge.v1, timeEdge.v2));
@@ -53,8 +53,11 @@ public class VersionGraphFactory {
             }
 
             snapshots.add(new Snapshot(i, vertices, edges));
-            //System.out.println(snapshots.toString());
+            System.out.printf("At time: %d; max time: %d", i, endTime);
+            System.out.println();
         }
+
+        System.out.println(snapshots.get(0).toString());
     }
 
     private static List<TimeEdge> readDataFromVersionFile(String filename) {
