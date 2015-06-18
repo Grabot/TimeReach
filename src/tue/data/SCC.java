@@ -10,10 +10,13 @@ import java.util.stream.IntStream;
 public class SCC {
     Map<TarjanSCC, Integer> map = new LinkedHashMap<>();
     Map<Integer, TarjanSCC> tarjans = new HashMap<>();
-    int size;
+    int vcId = 0;
 
     // SCC Graph Snaphots
     List<Snapshot> graphSnapshots = new ArrayList<>();
+
+    public SCC() {
+    }
 
     // Given an evolving graph GI = {Gti, Gti+1, . . . , Gtj },
     public SCC(List<Snapshot> snapshots) {
@@ -21,40 +24,37 @@ public class SCC {
         // we invoke at each graph snapshot Gtk ∈ GI an algorithm, e.g.,
         // Tarjan’s algorithm [24], to identify the corresponding set of SCCs.
         for (Snapshot snapshot : snapshots) {
-            TarjanSCC tarjan = new TarjanSCC(snapshot);
-            tarjans.put(snapshot.getTime(), tarjan);
-            map.put(tarjan, snapshot.getTime());
-        }
-        size = snapshots.size();
-
-        int vcId = 0;
-        for (Snapshot snapshot : snapshots) {
-            Set<Integer> vertices = new HashSet<>();
-            Set<Edge> edges = new HashSet<>();
-
-            TarjanSCC tarjanSCC = tarjans.get(snapshot.getTime());
-            IntStream.range(vcId, vcId+tarjanSCC.count()).forEach(vertices::add);
-
-
-            final int finalVcId = vcId;
-            snapshot.getEdges()
-                    .stream()
-                    .filter(edge -> tarjanSCC.id(edge.getVertex1()) != tarjanSCC.id(edge.getVertex2()))
-                    .map(edge ->
-                            new Edge(
-                                    finalVcId + tarjanSCC.id(edge.getVertex1()),
-                                    finalVcId + tarjanSCC.id(edge.getVertex2())
-                            ))
-                    .collect(Collectors.toSet())
-                    .forEach(edges::add);
-
-            // combine it
-            graphSnapshots.add(new Snapshot(snapshot.getTime(), vertices, edges));
-
-//            vcId += tarjanSCC.count();
+            addSnapShot(snapshot);
         }
     }
 
+    public void addSnapShot(Snapshot snapshot) {
+
+        TarjanSCC tarjan = new TarjanSCC(snapshot);
+        tarjans.put(snapshot.getTime(), tarjan);
+        map.put(tarjan, snapshot.getTime());
+
+        Set<Integer> vertices = new HashSet<>();
+        Set<Edge> edges = new HashSet<>();
+
+        TarjanSCC tarjanSCC = tarjans.get(snapshot.getTime());
+        IntStream.range(vcId, vcId + tarjanSCC.count()).forEach(vertices::add);
+
+        final int finalVcId = vcId;
+        snapshot.getEdges()
+                .stream()
+                .filter(edge -> tarjanSCC.id(edge.getVertex1()) != tarjanSCC.id(edge.getVertex2()))
+                .map(edge ->
+                        new Edge(
+                                finalVcId + tarjanSCC.id(edge.getVertex1()),
+                                finalVcId + tarjanSCC.id(edge.getVertex2())
+                        ))
+                .collect(Collectors.toSet())
+                .forEach(edges::add);
+
+        // combine it
+        graphSnapshots.add(new Snapshot(snapshot.getTime(), vertices, edges));
+    }
 
 
     /**

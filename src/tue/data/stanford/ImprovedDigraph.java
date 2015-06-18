@@ -103,6 +103,9 @@ public class ImprovedDigraph implements IDigraph {
      * @throws IndexOutOfBoundsException unless 0 <= v < V
      */
     public Iterable<Integer> adj(int v) {
+
+        if (!adj.containsKey(v)) return new Bag<Integer>();
+
         return adj.get(v);
     }
 
