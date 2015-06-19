@@ -14,8 +14,7 @@ import java.util.function.Predicate;
  */
 
 public class RealVersionGraph implements IVersionGraph {
-    private Interval interval;
-    private final List<Snapshot> evolvingGraph = new LinkedList<>();
+    private Interval interval = new Interval(-1, -1);
     private HashMap<Edge, IntervalSet> edgeIntervals = new HashMap<>();
     private HashMap<Integer, IntervalSet> vertexIntervals = new HashMap<>();
     private HashMap<Integer, Set<Integer>> edges = new HashMap<>();
@@ -31,7 +30,6 @@ public class RealVersionGraph implements IVersionGraph {
     }
 
     public void addSnapshot(Snapshot snap) {
-        this.evolvingGraph.add(snap);
 
         for(Edge e : snap.getEdges()) {
             Set<Integer> set = edges.getOrDefault(e.getVertex1(), new HashSet<>());
@@ -39,30 +37,23 @@ public class RealVersionGraph implements IVersionGraph {
             edges.put(e.getVertex1(), set);
         }
 
+        Integer start = this.interval.getStartTime() == -1 ? snap.getTime() : this.interval.getStartTime();
+        Integer end = this.interval.getEndTime() == -1 ? snap.getTime() : this.interval.getEndTime();
+
         Integer start = this.interval != null ? this.interval.getStartTime() : snap.getTime();
-        Integer end = snap.getTime();
+        Integer end = this.insnap.getTime();
 
         this.interval = new Interval(start, end);
     }
 
     // V_I, vertices of graph
     public Set<Integer> getVertices() {
-        Set<Integer> vertices = new HashSet<>();
-
-        for (Snapshot graph : evolvingGraph){
-            vertices.addAll(graph.getVertices());
-        }
-
+        Set<Integer> vertices = vertexIntervals.keySet();
         return vertices;
     }
 
     public Set<Edge> getEdges() {
-        Set<Edge> edges = new HashSet<Edge>();
-
-        for (Snapshot graph : evolvingGraph){
-            edges.addAll(graph.getEdges());
-        }
-
+        Set<Edge> edges = edgeIntervals.keySet();
         return edges;
     }
 
