@@ -1,5 +1,8 @@
 package tue;
 
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -41,7 +44,7 @@ public class Main {
         }
         */
 
-        /*
+
     	int times = 0;
     	for( int x = 0; x <= 3; x++ )
     	{
@@ -80,14 +83,14 @@ public class Main {
 					        //if( !truth == test || !test == test2 || !truth == test2 )
 					        //{
 					        //	System.out.println("not good " + " at intervalset (" + x + ", " + y + ")" + " for node " + i + " to " + j );
-					        }
+					        //}
 		    			}
 		    		}
 		    	}
     		}
     	}
     	System.out.println("ran " + times + " times" );
-    	*/
+
 
         pbTest();
     }
@@ -96,7 +99,68 @@ public class Main {
     {
         String file_fbdata = "./data/fb_days_version";
 
-        VersionGraphFactory.create(file_fbdata);
+        SCC graph = VersionGraphFactory.create(file_fbdata);
+
+        List<Query> queries = RandomQueryGenerator.create(VersionGraphFactory.readDataFromVersionFile(file_fbdata), 150);
+
+        for(Query query : queries) {
+            IntervalSet intervalSet = new IntervalSet();
+            intervalSet.addInterval(new Interval(query.startTime, query.endTime));
+
+            long startTime = System.nanoTime();
+            query.result = graph.TimeReach(query.v1, query.v2, intervalSet);
+            long endTime = System.nanoTime();
+
+            query.duration = (endTime - startTime);
+        }
+
+        // Output result to file
+        PrintWriter writer = null;
+        try {
+            writer = new PrintWriter("./data/queryresults_scc", "UTF-8");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        // Write query results to file
+        writer.printf("v1\tv2\ttimespan\tresult\tduration\n");
+        for(Query query : queries) {
+            writer.printf("%d\t%d\t%d,%d\t%b\t%d\n", query.v1, query.v2, query.startTime, query.endTime, query.result, query.duration);
+        }
+        writer.close();
+
+        graph = null;
+
+        RealVersionGraph vg = VersionGraphFactory.createVersionGraph(file_fbdata);
+
+        for(Query query : queries) {
+            IntervalSet intervalSet = new IntervalSet();
+            intervalSet.addInterval(new Interval(query.startTime, query.endTime));
+
+            long startTime = System.nanoTime();
+            query.result = ConjuctiveBFS.execute(vg, query.v1, query.v2, intervalSet);
+            long endTime = System.nanoTime();
+
+            query.duration = (endTime - startTime);
+        }
+
+        // Output result to file
+        try {
+            writer = new PrintWriter("./data/queryresults_versiongraph", "UTF-8");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        // Write query results to file
+        writer.printf("v1\tv2\ttimespan\tresult\tduration\n");
+        for(Query query : queries) {
+            writer.printf("%d\t%d\t%d,%d\t%b\t%d\n", query.v1, query.v2, query.startTime, query.endTime, query.result, query.duration);
+        }
+        writer.close();
     }
 
     private List<Snapshot> getDemo() {

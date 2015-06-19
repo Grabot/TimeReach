@@ -17,7 +17,7 @@ import java.util.List;
  */
 public class VersionGraphFactory {
 
-    public static void create(String filename)
+    public static SCC create(String filename)
     {
         // Read information from file in memory
         List<TimeEdge> timeEdges = readDataFromVersionFile(filename);
@@ -38,7 +38,7 @@ public class VersionGraphFactory {
         SCC scc = new SCC();
         HashSet<Integer> vertices;
         HashSet<Edge> edges;
-        for (int i = startTime; i <= endTime; i++ ) {
+        for (int i = 0; i <= endTime; i++ ) {
             vertices = new HashSet<Integer>();
             edges = new HashSet<Edge>();
 
@@ -52,16 +52,58 @@ public class VersionGraphFactory {
                 }
             }
 
+            System.out.printf("At time: %d; max time: %d; vertices: %d \n", i, endTime, vertices.size());
             scc.addSnapShot(new Snapshot(i, vertices, edges));
-            //snapshots.add(new Snapshot(i, vertices, edges));
-            System.out.printf("At time: %d; max time: %d", i, endTime);
-            System.out.println();
+
         }
 
-        //System.out.println(snapshots.get(0).toString());
+        return scc;
     }
 
-    private static List<TimeEdge> readDataFromVersionFile(String filename) {
+    public static RealVersionGraph createVersionGraph(String filename)
+    {
+        // Read information from file in memory
+        List<TimeEdge> timeEdges = readDataFromVersionFile(filename);
+
+        // Find first and lasttime index
+        int startTime = -1;
+        int endTime = -1;
+        for (TimeEdge timeEdge : timeEdges) {
+            if (startTime == -1 || timeEdge.startTime < startTime) {
+                startTime = timeEdge.startTime;
+            }
+            if (endTime == -1 || timeEdge.endTime > endTime) {
+                endTime = timeEdge.endTime;
+            }
+        }
+
+        // Create all snapshot
+        HashSet<Integer> vertices;
+        HashSet<Edge> edges;
+        List<Snapshot> snapshots = new ArrayList<Snapshot>();
+        for (int i = 0; i <= endTime; i++ ) {
+            vertices = new HashSet<Integer>();
+            edges = new HashSet<Edge>();
+
+            for (TimeEdge timeEdge : timeEdges) {
+
+                // When edge time is within snapshot
+                if (timeEdge.startTime <= i && timeEdge.endTime <= i) {
+                    vertices.add(timeEdge.v1);
+                    vertices.add(timeEdge.v2);
+                    edges.add(new Edge(timeEdge.v1, timeEdge.v2));
+                }
+            }
+
+            System.out.printf("At time: %d; max time: %d; vertices: %d \n", i, endTime, vertices.size());
+            snapshots.add(new Snapshot(i, vertices, edges));
+
+        }
+
+        return new RealVersionGraph(snapshots);
+    }
+
+    public static List<TimeEdge> readDataFromVersionFile(String filename) {
         String line;
         List<TimeEdge> timeEdges = new ArrayList<TimeEdge>();
 

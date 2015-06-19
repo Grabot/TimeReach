@@ -20,9 +20,14 @@ package tue.algorithms.stanford;
  *
  *************************************************************************/
 
+import tue.data.stanford.Bag;
 import tue.data.stanford.Digraph;
 import tue.data.stanford.IDigraph;
 
+import javax.xml.crypto.dsig.keyinfo.KeyValue;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.Stack;
 
 /**
@@ -56,52 +61,72 @@ import java.util.Stack;
  */
 public class TarjanSCC {
 
-    private boolean[] marked;        // marked[v] = has v been visited?
-    private int[] id;                // id[v] = id of strong component containing v
+    private HashMap<Integer, Boolean> marked;        // marked[v] = has v been visited?
+    //private int[] id;                // id[v] = id of strong component containing v
     private int[] size;
-    private int[] low;               // low[v] = low number of v
+    //private int[] low;               // low[v] = low number of v
     private int pre;                 // preorder number counter
     private int count;               // number of strongly-connected components
     private Stack<Integer> stack;
-
+    private HashMap<Integer, Integer> id;
+    private HashMap<Integer, Integer> low;
 
     /**
      * Computes the strong components of the digraph <tt>G</tt>.
      * @param G the digraph
      */
     public TarjanSCC(IDigraph G) {
-        marked = new boolean[G.V()];
+        marked = new HashMap<Integer, Boolean>();
+
+        //marked = new boolean[G.V()];
         stack = new Stack<Integer>();
-        id = new int[G.V()];
-        low = new int[G.V()];
+        id = new HashMap<Integer, Integer>();
+        low = new HashMap<Integer, Integer>();
+        //id = new int[G.V()];
+        //low = new int[G.V()];
         for (int v = 0; v < G.V(); v++) {
-            if (!marked[v]) dfs(G, v);
+            //if (!marked[v]) dfs(G, v);
+            if(!marked.containsKey(v)) {
+                marked.put(v, false);
+            }
+            if (!marked.get(v)) dfs(G, v);
         }
 
         size = new int[count];
-        for (int i = 0; i < id.length; i++) {
+        Iterator it = id.entrySet().iterator();
+        for (Integer key : id.values()) {
+            size[key]++;
+        }
+        /*
+        for (int i = 0; i < id.size(); i++) {
             size[id(i)]++;
         }
+        */
 
         // check that id[] gives strong components
         assert check(G);
     }
 
     private void dfs(IDigraph G, int v) {
-        marked[v] = true;
-        low[v] = pre++;
-        int min = low[v];
+        marked.put(v, true);
+        low.put(v, pre++);
+        //low[v] = pre++;
+        int min = low.get(v);
         stack.push(v);
         for (int w : G.adj(v)) {
-            if (!marked[w]) dfs(G, w);
-            if (low[w] < min) min = low[w];
+            if (!marked.containsKey(w)) {
+                marked.put(w, false);
+            }
+            if (!marked.get(w)) dfs(G, w);
+            if (low.get(w) < min) min = low.get(w);
         }
-        if (min < low[v]) { low[v] = min; return; }
+        if (min < low.get(v)) { low.put(v, min); return; }
         int w;
         do {
             w = stack.pop();
-            id[w] = count;
-            low[w] = G.V();
+            id.put(w, count);
+            //low[w] = G.V();
+            low.put(w, G.V());
         } while (w != v);
         count++;
     }
@@ -123,7 +148,7 @@ public class TarjanSCC {
      *     strong component, and <tt>false</tt> otherwise
      */
     public boolean stronglyConnected(int v, int w) {
-        return id[v] == id[w];
+        return id.get(v) == id.get(w);
     }
 
     /**
@@ -132,7 +157,10 @@ public class TarjanSCC {
      * @return the component id of the strong component containing vertex <tt>v</tt>
      */
     public int id(int v) {
-        return id[v];
+        if (!id.containsKey(v))
+            return -1;
+
+        return id.get(v);
     }
 
     // does the id[] array contain the strongly connected components?
@@ -148,7 +176,7 @@ public class TarjanSCC {
     }
 
     public int count(Integer u) {
-        return size[id[u]];
+        return size[id.get(u)];
     }
 
     /**
