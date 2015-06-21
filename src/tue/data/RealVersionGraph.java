@@ -35,13 +35,29 @@ public class RealVersionGraph implements IVersionGraph {
             Set<Integer> set = edges.getOrDefault(e.getVertex1(), new HashSet<>());
             set.add(e.getVertex2());
             edges.put(e.getVertex1(), set);
+
+            if (!edgeIntervals.containsKey(e))
+                edgeIntervals.put(e, new IntervalSet());
+
+            if(!vertexIntervals.containsKey(e.getVertex1()))
+                vertexIntervals.put(e.getVertex1(), new IntervalSet());
+
+            if(!vertexIntervals.containsKey(e.getVertex2()))
+                vertexIntervals.put(e.getVertex2(), new IntervalSet());
+
+            IntervalSet is;
+            is = edgeIntervals.get(e);
+            is.addInterval(new Interval(snap.getTime(), snap.getTime()));
+
+            is = vertexIntervals.get(e.getVertex1());
+            is.addInterval(new Interval(snap.getTime(), snap.getTime()));
+
+            is = vertexIntervals.get(e.getVertex2());
+            is.addInterval(new Interval(snap.getTime(), snap.getTime()));
         }
 
         Integer start = this.interval.getStartTime() == -1 ? snap.getTime() : this.interval.getStartTime();
         Integer end = this.interval.getEndTime() == -1 ? snap.getTime() : this.interval.getEndTime();
-
-        Integer start = this.interval != null ? this.interval.getStartTime() : snap.getTime();
-        Integer end = this.insnap.getTime();
 
         this.interval = new Interval(start, end);
     }
@@ -66,7 +82,7 @@ public class RealVersionGraph implements IVersionGraph {
         if(edgeIntervals.containsKey(e)) {
             return edgeIntervals.get(e);
         }
-        IntervalSet set = calculateIntervals(Snapshot::getEdges, e);
+        IntervalSet set = new IntervalSet();
         edgeIntervals.put(e, set);
         return set;
     }
@@ -75,38 +91,9 @@ public class RealVersionGraph implements IVersionGraph {
         if(vertexIntervals.containsKey(v)) {
             return vertexIntervals.get(v);
         }
-        IntervalSet set = calculateIntervals(Snapshot::getVertices, v);
+        IntervalSet set = new IntervalSet();
         vertexIntervals.put(v, set);
         return set;
     }
 
-    private IntervalSet calculateIntervals(Function<Snapshot, Set> contain, Object thing) {
-        IntervalSet set = new IntervalSet();
-        boolean inInterval = false;
-        Integer start = null;
-        Integer end = null;
-        for (Snapshot graph : evolvingGraph){
-            Set holder = contain.apply(graph);
-            if (holder.contains(thing))
-            {
-                if(!inInterval) {
-                    start = graph.getTime();
-                    inInterval = true;
-                }
-
-                end = graph.getTime();
-            } else {
-                inInterval = false;
-                if(start != null && end != null) {
-                    set.addInterval(new Interval(start, end));
-                    start = null;
-                    end = null;
-                }
-            }
-        }
-        if(inInterval && start != null && end != null) {
-            set.addInterval(new Interval(start, end));
-        }
-        return set;
-    }
 }

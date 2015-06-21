@@ -80,7 +80,7 @@ public class VersionGraphFactory {
         // Create all snapshot
         HashSet<Integer> vertices;
         HashSet<Edge> edges;
-        List<Snapshot> snapshots = new ArrayList<Snapshot>();
+        RealVersionGraph realVersionGraph= new RealVersionGraph();
         for (int i = 0; i <= endTime; i++ ) {
             vertices = new HashSet<Integer>();
             edges = new HashSet<Edge>();
@@ -96,11 +96,11 @@ public class VersionGraphFactory {
             }
 
             System.out.printf("At time: %d; max time: %d; vertices: %d \n", i, endTime, vertices.size());
-            snapshots.add(new Snapshot(i, vertices, edges));
+            realVersionGraph.addSnapshot(new Snapshot(i, vertices, edges));
 
         }
 
-        return new RealVersionGraph(snapshots);
+        return realVersionGraph;
     }
 
     public static List<TimeEdge> readDataFromVersionFile(String filename) {
